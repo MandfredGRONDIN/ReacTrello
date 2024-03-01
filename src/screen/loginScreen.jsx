@@ -1,9 +1,9 @@
-// ReacNativeTrello/src/screen/login.jsx
+// ReacNativeTrello/src/screen/loginScreen.jsx
 
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { styles } from '../styles/styles';
-import { connectUser } from '../api/auth';
+//import { styles } from '../styles/styles';
+import { logUser } from '../utils/api/auth'
 import { UserContext } from '../context/userContext';
 
 const loginScreen = () => {
@@ -13,7 +13,7 @@ const loginScreen = () => {
 
     const handleLogin = async () => {
         try {
-            const user = await connectUser(login, pass)
+            const user = await logUser(login, pass)
             setUser(user)
         }
         catch (error) {
@@ -23,20 +23,16 @@ const loginScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.titre}>Login</Text>
-            <TextInput placeholder="Entrez votre email" keyboardType="email-address" style={styles.input} value={login} onChangeText={setLogin} />
-            <TextInput placeholder="Entrez votre mot de passe" secureTextEntry={true} style={styles.input} value={pass} onChangeText={setPass} />
-            <TouchableOpacity style={styles.btn} onPress={handleLogin}>
-                <Text style={styles.btnText}>Login</Text>
+        <View>
+            <Text>Login</Text>
+            <TextInput placeholder="Entrez votre email" keyboardType="email-address" value={login} onChangeText={setLogin} />
+            <TextInput placeholder="Entrez votre mot de passe" secureTextEntry={true} value={pass} onChangeText={setPass} />
+            <TouchableOpacity onPress={handleLogin}>
+                <Text>Login</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-
-})
 
 export default loginScreen;
 

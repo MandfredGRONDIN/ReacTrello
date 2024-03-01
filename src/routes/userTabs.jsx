@@ -1,8 +1,8 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import Login from '../screen/login';
-import Register from '../screen/register';
+import Login from '../screen/loginScreen';
+import Register from '../screen/registerScreen';
 
 
 const Tab = createMaterialBottomTabNavigator();

@@ -1,9 +1,9 @@
 // ReacNativeTrello/src/screen/register.jsx
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Text, TextInput, Alert } from 'react-native';
-import { styles } from '../styles/styles';
+//import { styles } from '../styles/styles';
 import { TouchableOpacity } from 'react-native';
-import { createUser } from '../api/auth';
+import { createUser } from '../utils/api/auth';
 import { UserContext } from '../context/userContext';
 
 const registerScreen = () => {
@@ -29,18 +29,16 @@ const registerScreen = () => {
         }
     }
     return (
-        <View style={styles.container}>
-            <Text style={styles.titre}>Enregistrement</Text>
-            <TextInput placeholder="Entrez votre email" keyboardType="email-address" style={styles.input} value={login} onChangeText={setLogin} />
-            <TextInput placeholder="Entrez votre mot de passe" secureTextEntry={true} style={styles.input} value={pass} onChangeText={setPass} />
-            <TextInput placeholder="Confirmez votre mot de passe" secureTextEntry={true} style={styles.input} value={confirm} onChangeText={setConfirm} />
-            <TouchableOpacity style={styles.btn} onPress={handleRegister}>
-                <Text style={styles.btnText}>Login</Text>
+        <View>
+            <Text>Enregistrement</Text>
+            <TextInput placeholder="Entrez votre email" keyboardType="email-address" value={login} onChangeText={setLogin} />
+            <TextInput placeholder="Entrez votre mot de passe" secureTextEntry={true} value={pass} onChangeText={setPass} />
+            <TextInput placeholder="Confirmez votre mot de passe" secureTextEntry={true} value={confirm} onChangeText={setConfirm} />
+            <TouchableOpacity onPress={handleRegister}>
+                <Text>Login</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
-const styles = StyleSheet.create({})
 
 export default registerScreen;
