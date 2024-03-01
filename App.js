@@ -1,12 +1,12 @@
 //App.js
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import loginScreen from './src/screen/loginScreen'
+import LoginScreen from './src/screen/LoginScreen'
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { UserContext } from './src/context/userContext';
 import UserTabs from './src/routes/userTabs';
-import Home from './src/screen/homeScreen';
+import Home from './src/screen/HomeScreen';
 
 export default function App() {
   const [user, setUser] = useState()

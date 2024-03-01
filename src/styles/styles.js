@@ -1,47 +1,39 @@
-import { StyleSheet } from "react-native";
+// ReacNativeTrello/src/styles/styles.js
 
-export const globalStyles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: 40,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    input: {
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: "#000",
-        borderStyle: "solid",
-        width: 300,
-        height: 50,
-        padding: 3,
-        marginVertical: 5
-    },
-    btn: {
-        borderRadius: 5,
-        marginVertical: 5,
-        paddingHorizontal: 50,
-        paddingVertical: 10,
-        backgroundColor: "#3474eb"
-    },
-    btnText: {
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: 14
-    },
-    titre: {
-        fontWeight: "bold",
-        fontSize: 24
-    },
-    longCard: {
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: "#000",
-        borderStyle: "solid",
-        width: 300,
-        height: 50,
-        padding: 3,
-        marginVertical: 5
-    }
-})
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+  },
+  button: {
+    width: '100%',
+    backgroundColor: 'blue',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+});
