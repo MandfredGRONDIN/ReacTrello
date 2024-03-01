@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth } from "./app"
 
 const ERROR_MESSAGES = {
     "auth/email-already-in-use": "L'adresse e-mail est déjà utilisée par un autre compte.",

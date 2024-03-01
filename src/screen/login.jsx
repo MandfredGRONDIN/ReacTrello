@@ -1,52 +1,34 @@
-// ReacNativeTrello/src/screen/login.jsx
+import React, { useContext, useState } from 'react';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { logUser } from '../utils/api/auth';
+import { UserContext } from '../context/userContext';
 
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+const Login = () => {
+    const [login, setLogin] = useState("")
+    const [pass, setPass] = useState("")
+    const { setUser } = useContext(UserContext)
 
-const Login = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+    const handleLogin = async () => {
+        try {
+            const user = await logUser(login, pass)
+            setUser(user)
+        }
+        catch (error) {
+            console.log(error);
+            Alert.alert(error.message)
+        }
+    }
 
-  const handleLogin = () => {
-    // Ici, vous pouvez implémenter la logique d'authentification
-    // Par exemple, en utilisant une API ou une méthode d'authentification tierce
-    // Une fois l'authentification réussie, vous pouvez naviguer vers la page de tableau de bord
-    navigation.navigate('Board');
-  };
-
-  return (
-    <View style={styles.container}>
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={styles.input}
-      />
-      <Button title="Login" onPress={handleLogin} />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    width: '80%',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    marginBottom: 10,
-  },
-});
+    return (
+        <View>
+            <Text >Login</Text>
+            <TextInput placeholder="Entrez votre email" keyboardType="email-address"  value={login} onChangeText={setLogin} />
+            <TextInput placeholder="Entrez votre mot de passe" secureTextEntry={true}  value={pass} onChangeText={setPass} />
+            <TouchableOpacity onPress={handleLogin}>
+                <Text>Login</Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
 
 export default Login;
