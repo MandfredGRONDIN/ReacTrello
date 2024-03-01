@@ -3,7 +3,7 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../styles/styles';
-import { logUser } from '../utils/api/auth';
+import { logUser } from '../utils/auth/logUser';
 import { UserContext } from '../context/userContext';
 
 const LoginScreen = () => {

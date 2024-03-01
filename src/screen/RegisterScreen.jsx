@@ -3,7 +3,7 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../styles/styles';
-import { createUser } from '../utils/api/auth';
+import { createUser } from '../utils/auth/createUser';
 import { UserContext } from '../context/userContext';
 
 const RegisterScreen = () => {
