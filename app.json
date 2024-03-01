@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "ReacTrello",
+    "slug": "ReacTrello",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "ReacTrello"
+}
