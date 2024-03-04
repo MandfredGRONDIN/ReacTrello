@@ -7,9 +7,17 @@ import { getProjects } from '../utils/project/read.js'
 import { deleteProject } from '../utils/project/delete.js'
 import { addMemberToProject } from '../utils/project/update.js'
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, route }) => {
   const { user } = useContext(UserContext);
   const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadProjects();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     loadProjects();
