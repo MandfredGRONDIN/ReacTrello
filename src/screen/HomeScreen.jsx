@@ -1,4 +1,3 @@
-// src/screen/HomeScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../styles/styles';
@@ -8,9 +7,8 @@ import { deleteProject } from '../utils/project/delete.js'
 import { addMemberToProject } from '../utils/project/update.js'
 
 const HomeScreen = ({ navigation, route }) => {
-  const { user } = useContext(UserContext);
+  const { user, setProject } = useContext(UserContext);
   const [projects, setProjects] = useState([]);
-  const { setProject } = useContext(UserContext);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -51,7 +49,7 @@ const HomeScreen = ({ navigation, route }) => {
     // Mettre à jour le projet actif dans le contexte utilisateur
     setProject(selectedProject);
   };
-  
+
   return (
     <View style={styles.container}>
       {/* Liste des projets */}
@@ -61,15 +59,15 @@ const HomeScreen = ({ navigation, route }) => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <>
-              <View style={styles.projectContainer}>
+              <TouchableOpacity style={styles.projectContainer} onPress={() => handleProjectSelection(item.id)}>
                 <View style={styles.projectContent}>
                   <Text style={styles.projectTitle}>{item.title}</Text>
                   <Text style={styles.projectDescription}>{item.description}</Text>
                 </View>
-                <TouchableOpacity onPress={() => handleProjectSelection(item.id)}>
+                <TouchableOpacity onPress={() => handleDeleteProject(item.id)} style={styles.deleteButton}>
                   <Text style={styles.deleteButtonText}>Supprimer</Text>
                 </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
               {/* Ajoutez la délimitation après chaque élément de projet */}
               <View style={styles.projectDelimiter} />
             </>
