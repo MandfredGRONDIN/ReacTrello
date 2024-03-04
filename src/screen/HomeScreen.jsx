@@ -1,4 +1,4 @@
-// src/screen/HomeScreen
+// src/screen/HomeScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../styles/styles';
@@ -44,10 +44,6 @@ const HomeScreen = ({ navigation, route }) => {
     }
   };
 
-  const handleEditProject = (projectId) => {
-    Alert.alert('Modifier le projet', 'Cette fonctionnalité n\'est pas encore implémentée.');
-  };
-
   const handleProjectSelection = (projectId) => {
     // Trouver le projet correspondant à l'ID sélectionné
     const selectedProject = projects.find(project => project.id === projectId);
@@ -55,7 +51,6 @@ const HomeScreen = ({ navigation, route }) => {
     // Mettre à jour le projet actif dans le contexte utilisateur
     setProject(selectedProject);
   };
-  
   
   return (
     <View style={styles.container}>
@@ -65,15 +60,19 @@ const HomeScreen = ({ navigation, route }) => {
           data={projects}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.projectItem} onPress={() => handleProjectSelection(item.id)}>
-              <Text style={styles.projectTitle}>{item.title}</Text>
-              <TouchableOpacity onPress={() => handleEditProject(item.id)}>
-                <Text style={styles.editButton}>Modifier</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleDeleteProject(item.id)}>
-                <Text style={styles.deleteButton}>Supprimer</Text>
-              </TouchableOpacity>
-            </TouchableOpacity>
+            <>
+              <View style={styles.projectContainer}>
+                <View style={styles.projectContent}>
+                  <Text style={styles.projectTitle}>{item.title}</Text>
+                  <Text style={styles.projectDescription}>{item.description}</Text>
+                </View>
+                <TouchableOpacity onPress={() => handleProjectSelection(item.id)}>
+                  <Text style={styles.deleteButtonText}>Supprimer</Text>
+                </TouchableOpacity>
+              </View>
+              {/* Ajoutez la délimitation après chaque élément de projet */}
+              <View style={styles.projectDelimiter} />
+            </>
           )}
         />
       ) : (
