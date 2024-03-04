@@ -80,10 +80,8 @@ const BoardScreen = ({ navigation }) => {
                     />
                 </View>
                 )}
-            />
+
             </View>
-        )}
-        </View>
     );
 };
 
