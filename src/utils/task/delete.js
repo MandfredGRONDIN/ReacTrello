@@ -1,3 +1,4 @@
+// src/utils/task/delete.js
 import { doc, deleteDoc } from "firebase/firestore";
 import { firestore } from "../firebase/app";
 
@@ -11,3 +12,4 @@ export async function deleteTask(projectId, taskId) {
         throw new Error("Unable to delete task.");
     }
 }
+
