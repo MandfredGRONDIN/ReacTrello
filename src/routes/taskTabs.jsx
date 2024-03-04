@@ -1,20 +1,21 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import Login from '../screen/LoginScreen';
-import Register from '../screen/RegisterScreen';
+import AddTask from '../screen/AddTaskScreen';
+import BoardScreen from '../screen/BoardScreen';
+
 
 const Tab = createMaterialBottomTabNavigator();
 
-const UserTabs = () => {
+const projectTabs = () => {
     return (
         <Tab.Navigator>
-            <Tab.Screen name='login' component={Login} />
-            <Tab.Screen name='register' component={Register} />
+            <Tab.Screen name='Task' component={BoardScreen} />
+            <Tab.Screen name='AddTask' component={AddTask} />
         </Tab.Navigator>
     );
 }
 
 const styles = StyleSheet.create({})
 
-export default UserTabs;
+export default projectTabs;
