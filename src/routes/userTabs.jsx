@@ -16,6 +16,5 @@ const UserTabs = () => {
     );
 }
 
-const styles = StyleSheet.create({})
 
 export default UserTabs;

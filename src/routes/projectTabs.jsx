@@ -1,7 +1,6 @@
 // src/routes/projectTabs.jsx
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import User from '../screen/User';
 import AddProject from '../screen/AddProjectScreen';
 import HomeScreen from '../screen/HomeScreen';
@@ -19,6 +18,5 @@ const projectTabs = () => {
     );
 }
 
-const styles = StyleSheet.create({})
 
 export default projectTabs;
