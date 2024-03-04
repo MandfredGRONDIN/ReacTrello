@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 60, // Augmentez la valeur de paddingTop pour décaler le contenu vers le bas
   },
   title: {
     fontSize: 24,
