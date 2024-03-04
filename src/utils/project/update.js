@@ -1,5 +1,6 @@
+// src/utils/project/update.js
 import { updateDoc, doc } from "firebase/firestore";
-import { firestore } from "./firebase";
+import { firestore } from "../firebase/app";
 
 export async function addMemberToProject(projectId, memberId) {
     try {

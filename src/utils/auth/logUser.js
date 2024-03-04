@@ -1,3 +1,4 @@
+// src/utils/auth/logUser.js
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/app"
 

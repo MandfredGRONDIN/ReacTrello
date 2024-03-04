@@ -1,4 +1,4 @@
-// ReacNativeTrello/src/styles/styles.js
+// src/styles/styles.js
 
 import { StyleSheet } from 'react-native';
 

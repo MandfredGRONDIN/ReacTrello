@@ -1,1 +1,1 @@
-// Board.jsx
+// src/components/Board.jsx

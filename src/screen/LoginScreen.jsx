@@ -1,4 +1,4 @@
-// ReacNativeTrello/src/screen/loginScreen.jsx
+// src/screen/loginScreen.jsx
 
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';

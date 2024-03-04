@@ -1,5 +1,6 @@
+// src/utils/project/auth.js
 import { collection, addDoc } from "firebase/firestore";
-import { firestore } from "./firebase";
+import { firestore } from "../firebase/app";
 
 export async function createProject(title, description, userId) {
     try {
