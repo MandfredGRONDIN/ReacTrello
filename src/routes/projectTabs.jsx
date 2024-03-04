@@ -11,7 +11,7 @@ const Tab = createMaterialBottomTabNavigator();
 const projectTabs = () => {
     return (
         <Tab.Navigator>
-            <Tab.Screen name='Project' component={HomeScreen} />
+            <Tab.Screen name='Project' component={HomeScreen} initialParams={{ refresh: Math.random() }} />
             <Tab.Screen name='AddProject' component={AddProject} />
             <Tab.Screen name='User' component={User} />
         </Tab.Navigator>
