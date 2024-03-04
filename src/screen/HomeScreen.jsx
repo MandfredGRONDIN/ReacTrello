@@ -43,28 +43,27 @@ const HomeScreen = ({ navigation, route }) => {
     }
   };
 
-  // const handleEditProject = (projectId) => {
-  //   Alert.alert('Modifier le projet', 'Cette fonctionnalité n\'est pas encore implémentée.');
-  // };
-
   return (
     <View style={styles.container}>
-
       {/* Liste des projets */}
       {projects.length > 0 ? (
         <FlatList
           data={projects}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.projectItem} onPress={() => navigation.navigate('ProjectDetails', { projectId: item.id })}>
-              <Text style={styles.projectTitle}>{item.title}</Text>
-              {/* <TouchableOpacity onPress={() => handleEditProject(item.id)}>
-                <Text style={styles.editButton}>Modifier</Text>
-              </TouchableOpacity> */}
-              <TouchableOpacity onPress={() => handleDeleteProject(item.id)}>
-                <Text style={styles.deleteButton}>Supprimer</Text>
-              </TouchableOpacity>
-            </TouchableOpacity>
+            <>
+              <View style={styles.projectContainer}>
+                <View style={styles.projectContent}>
+                  <Text style={styles.projectTitle}>{item.title}</Text>
+                  <Text style={styles.projectDescription}>{item.description}</Text>
+                </View>
+                <TouchableOpacity onPress={() => handleDeleteProject(item.id)} style={styles.deleteButton}>
+                  <Text style={styles.deleteButtonText}>Supprimer</Text>
+                </TouchableOpacity>
+              </View>
+              {/* Ajoutez la délimitation après chaque élément de projet */}
+              <View style={styles.projectDelimiter} />
+            </>
           )}
         />
       ) : (
