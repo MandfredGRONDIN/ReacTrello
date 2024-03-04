@@ -1,4 +1,4 @@
-// src/utils/project/auth.js
+// src/utils/project/create.js
 import { collection, addDoc } from "firebase/firestore";
 import { firestore } from "../firebase/app";
 

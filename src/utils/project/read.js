@@ -3,13 +3,15 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firestore } from "../firebase/app";
 
 export async function getProjects() {
+    console.log('je suis la')
     try {
-        const projectsCollection = collection(firestore, 'projects');
-        const querySnapshot = await getDocs(projectsCollection);
+        // const projectsCollection = collection(firestore, 'projects');
+        // const querySnapshot = await getDocs(projectsCollection);
         const projects = [];
-        querySnapshot.forEach(doc => {
-            projects.push({ id: doc.id, ...doc.data() });
-        });
+        projects.push({id:1, title:"test", description:"test", createdBy: 1, members:[1]})
+        // querySnapshot.forEach(doc => {
+        //     projects.push({ id: doc.id, ...doc.data() });
+        // });
         return projects;
     } catch (error) {
         console.error("Error getting projects: ", error);
