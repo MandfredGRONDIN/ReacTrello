@@ -1,5 +1,5 @@
 import { doc, deleteDoc } from "firebase/firestore";
-import { firestore } from "./firebase";
+import { firestore } from "../firebase/app";
 
 export async function deleteProject(projectId) {
     try {

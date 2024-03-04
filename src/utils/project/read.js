@@ -1,5 +1,5 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { firestore } from "./firebase";
+import { firestore } from "../firebase/app";
 
 export async function getProjects() {
     try {
