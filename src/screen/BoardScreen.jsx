@@ -42,30 +42,42 @@ const BoardScreen = ({ navigation }) => {
             // Gérer l'erreur si nécessaire
         }
     };
+    
+    const handleTaskSelection = (taskId) => {
+        // Naviguer vers l'écran de détails de la tâche en passant l'ID de la tâche en tant que paramètre
+        navigation.navigate('TaskId', { taskId: taskId });
+    };
 
     return (
         <View style={styles.container}>
         <TouchableOpacity onPress={handleNavigateToProjects} style={styles.navigateButton}>
             <Text style={styles.navigateButtonText}>Naviguer vers les projets</Text>
         </TouchableOpacity>
-
-        {project && (
-            <View style={styles.projectInfoContainer}>
-            <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
-            <Text style={styles.projectDescription}>Description: {project.description}</Text>
-            {/* Afficher les tâches du projet */}
-            <Text style={styles.taskTitle}>Tâches :</Text>
-            <FlatList
-                style={styles.tasksContainer}
-                data={tasks}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                <View style={styles.taskItem}>
-                    <Text style={styles.taskTitle}>{item.title}</Text>
-                    <Text style={styles.taskDescription}>{item.description}</Text>
-                    <TouchableOpacity onPress={() => handleDeleteTask(item.id)} style={styles.deleteButton}>
-                    <Text style={styles.deleteButtonText}>Supprimer</Text>
-                    </TouchableOpacity>
+            {project && (
+                <View style={styles.projectInfoContainer}>
+                    <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
+                    <Text style={styles.projectDescription}>Description: {project.description}</Text>
+                    {/* Afficher les tâches du projet */}
+                    <Text style={styles.taskTitle}>Tâches :</Text>
+                    <FlatList
+                        style={styles.tasksContainer}
+                        data={tasks}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <>
+                            <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
+                                <Text style={styles.taskTitle}>{item.title}</Text>
+                                <Text style={styles.taskDescription}>{item.description}</Text>
+                                <TouchableOpacity
+                                    onPress={() => handleDeleteTask(item.id)}
+                                    style={styles.deleteButton}
+                                    >
+                                    <Text style={styles.deleteButtonText}>Supprimer</Text>
+                                </TouchableOpacity>
+                            </TouchableOpacity>
+                            </>
+                        )}
+                    />
                 </View>
                 )}
             />
