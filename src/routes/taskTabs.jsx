@@ -17,6 +17,5 @@ const projectTabs = () => {
     );
 }
 
-const styles = StyleSheet.create({})
 
 export default projectTabs;
