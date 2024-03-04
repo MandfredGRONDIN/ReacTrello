@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { UserContext } from './src/context/userContext';
 import UserTabs from './src/routes/userTabs';
-import ProjectTabs from './src/routes/projectTabs'
+import ProjectTabs from './src/routes/ProjectTabs'
 import TaskTabs from './src/routes/taskTabs';
 
 export default function App() {
