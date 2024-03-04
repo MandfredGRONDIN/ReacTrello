@@ -91,4 +91,36 @@ export const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     marginVertical: 5,
   },
+  // Styles for BoardScreen component
+  projectInfoContainer: {
+    marginBottom: 20,
+  },
+  taskItem: {
+    marginBottom: 20,
+    padding: 10,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 5,
+  },
+  taskTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  taskDescription: {
+    fontSize: 16,
+  },
+  tasksContainer: {
+    marginTop: 20,
+  },
+  navigateButton: {
+    marginBottom: 20,
+    padding: 10,
+    backgroundColor: '#007BFF',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  navigateButtonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
 });
