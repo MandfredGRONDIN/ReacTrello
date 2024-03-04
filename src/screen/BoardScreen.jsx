@@ -3,7 +3,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { UserContext } from '../context/userContext';
 import { styles } from '../styles/styles';
-import { getTasksByProjectId } from '../utils/task/read'; // Utilisez getTasksByProjectId à la place de getTasksForProject
+import { getTasksByProjectId } from '../utils/task/read'; 
+import {deleteTask} from '../utils/task/delete';
 
 const BoardScreen = ({ navigation }) => {
     const { project, setProject } = useContext(UserContext);
@@ -31,6 +32,17 @@ const BoardScreen = ({ navigation }) => {
         setProject(null); // Effacez le projet sélectionné
     };
 
+    const handleDeleteTask = async (taskId) => {
+        try {
+            await deleteTask(project.id, taskId); // Appelez la fonction de suppression de tâche
+            // Mettez à jour l'état des tâches après la suppression de la tâche
+            setTasks(tasks.filter(task => task.id !== taskId));
+        } catch (error) {
+            console.error('Erreur lors de la suppression de la tâche :', error);
+            // Gérer l'erreur si nécessaire
+        }
+    };
+
     return (
         <View style={styles.container}>
             {/* Bouton pour naviguer vers la liste des projets */}
@@ -51,7 +63,12 @@ const BoardScreen = ({ navigation }) => {
                             <View>
                                 <Text>{item.title}</Text>
                                 <Text>{item.description}</Text>
-                                {/* Afficher d'autres détails de la tâche si nécessaire */}
+                                <TouchableOpacity
+                                    onPress={() => handleDeleteTask(item.id)}
+                                    style={styles.deleteButton}
+                                >
+                                    <Text>Supprimer</Text>
+                                </TouchableOpacity>
                             </View>
                         )}
                     />
