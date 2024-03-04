@@ -5,10 +5,9 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
     paddingHorizontal: 20,
+    paddingTop: 40,
   },
   title: {
     fontSize: 24,
@@ -35,5 +34,20 @@ export const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  projectItem: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  projectTitle: {
+    fontSize: 18,
+  },
+  addButton: {
+    backgroundColor: 'blue',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
   },
 });
