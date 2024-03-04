@@ -42,6 +42,11 @@ const BoardScreen = ({ navigation }) => {
             // Gérer l'erreur si nécessaire
         }
     };
+    
+    const handleTaskSelection = (taskId) => {
+        // Naviguer vers l'écran de détails de la tâche en passant l'ID de la tâche en tant que paramètre
+        navigation.navigate('TaskId', { taskId: taskId });
+    };
 
     return (
         <View style={styles.container}>
@@ -60,16 +65,18 @@ const BoardScreen = ({ navigation }) => {
                         data={tasks}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => (
-                            <View>
+                            <>
+                            <TouchableOpacity style={styles.projectContainer} onPress={() => handleTaskSelection(item.id)}>
                                 <Text>{item.title}</Text>
                                 <Text>{item.description}</Text>
                                 <TouchableOpacity
                                     onPress={() => handleDeleteTask(item.id)}
                                     style={styles.deleteButton}
-                                >
+                                    >
                                     <Text>Supprimer</Text>
                                 </TouchableOpacity>
-                            </View>
+                            </TouchableOpacity>
+                            </>
                         )}
                     />
                 </View>
