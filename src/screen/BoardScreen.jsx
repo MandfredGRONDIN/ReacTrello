@@ -1,4 +1,4 @@
-// src/screen/board.jsx
+// src/screen/BoardScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../styles/styles';
