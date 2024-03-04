@@ -1,4 +1,4 @@
-// src/screen/HomeScreen
+// src/screen/HomeScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../styles/styles';
@@ -43,9 +43,9 @@ const HomeScreen = ({ navigation, route }) => {
     }
   };
 
-  const handleEditProject = (projectId) => {
-    Alert.alert('Modifier le projet', 'Cette fonctionnalité n\'est pas encore implémentée.');
-  };
+  // const handleEditProject = (projectId) => {
+  //   Alert.alert('Modifier le projet', 'Cette fonctionnalité n\'est pas encore implémentée.');
+  // };
 
   return (
     <View style={styles.container}>
@@ -58,9 +58,9 @@ const HomeScreen = ({ navigation, route }) => {
           renderItem={({ item }) => (
             <TouchableOpacity style={styles.projectItem} onPress={() => navigation.navigate('ProjectDetails', { projectId: item.id })}>
               <Text style={styles.projectTitle}>{item.title}</Text>
-              <TouchableOpacity onPress={() => handleEditProject(item.id)}>
+              {/* <TouchableOpacity onPress={() => handleEditProject(item.id)}>
                 <Text style={styles.editButton}>Modifier</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity onPress={() => handleDeleteProject(item.id)}>
                 <Text style={styles.deleteButton}>Supprimer</Text>
               </TouchableOpacity>

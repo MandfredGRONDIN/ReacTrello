@@ -50,4 +50,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
+  // Styles for User screen
+  email: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
 });
+

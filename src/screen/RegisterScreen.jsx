@@ -1,4 +1,4 @@
-// src/screen/register.jsx
+// src/screen/RegisterScreen.jsx
 
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';

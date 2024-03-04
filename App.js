@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { UserContext } from './src/context/userContext';
 import UserTabs from './src/routes/userTabs';
-import Home from './src/screen/HomeScreen';
 import ProjectTabs from './src/routes/ProjectTabs'
 export default function App() {
   const [user, setUser] = useState()

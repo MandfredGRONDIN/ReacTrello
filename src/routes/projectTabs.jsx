@@ -1,7 +1,7 @@
 // src/routes/projectTabs.jsx
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React from 'react';
-import User from '../screen/User';
+import User from '../screen/UserScreen';
 import AddProject from '../screen/AddProjectScreen';
 import HomeScreen from '../screen/HomeScreen';
 
