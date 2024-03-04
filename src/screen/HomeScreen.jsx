@@ -10,6 +10,7 @@ import { addMemberToProject } from '../utils/project/update.js'
 const HomeScreen = ({ navigation, route }) => {
   const { user } = useContext(UserContext);
   const [projects, setProjects] = useState([]);
+  const { setProject } = useContext(UserContext);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -43,6 +44,14 @@ const HomeScreen = ({ navigation, route }) => {
     }
   };
 
+  const handleProjectSelection = (projectId) => {
+    // Trouver le projet correspondant à l'ID sélectionné
+    const selectedProject = projects.find(project => project.id === projectId);
+    
+    // Mettre à jour le projet actif dans le contexte utilisateur
+    setProject(selectedProject);
+  };
+  
   return (
     <View style={styles.container}>
       {/* Liste des projets */}
@@ -57,7 +66,7 @@ const HomeScreen = ({ navigation, route }) => {
                   <Text style={styles.projectTitle}>{item.title}</Text>
                   <Text style={styles.projectDescription}>{item.description}</Text>
                 </View>
-                <TouchableOpacity onPress={() => handleDeleteProject(item.id)} style={styles.deleteButton}>
+                <TouchableOpacity onPress={() => handleProjectSelection(item.id)}>
                   <Text style={styles.deleteButtonText}>Supprimer</Text>
                 </TouchableOpacity>
               </View>

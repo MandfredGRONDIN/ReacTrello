@@ -8,7 +8,7 @@ import BoardScreen from '../screen/BoardScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
-const projectTabs = () => {
+const TaskTabs = () => {
     return (
         <Tab.Navigator>
             <Tab.Screen name='Task' component={BoardScreen} />
@@ -18,4 +18,4 @@ const projectTabs = () => {
 }
 
 
-export default projectTabs;
+export default TaskTabs;
