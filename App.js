@@ -1,20 +1,22 @@
-//App.js
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import LoginScreen from './src/screen/LoginScreen'
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { UserContext } from './src/context/userContext';
 import UserTabs from './src/routes/userTabs';
-import Home from './src/screen/HomeScreen';
-import ProjectTabs from './src/routes/ProjectTabs'
+import ProjectTabs from './src/routes/projectTabs'
+import TaskTabs from './src/routes/taskTabs';
+
 export default function App() {
   const [user, setUser] = useState()
+  const [project, setProject] = useState()
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, project, setProject}}>
       <NavigationContainer>
       {user ? (
-          <ProjectTabs />
+          !project ? (
+            <ProjectTabs/>
+              ) : (
+            <TaskTabs/>) 
       ) : (
           <UserTabs />
         )}
