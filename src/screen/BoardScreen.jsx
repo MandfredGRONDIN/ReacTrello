@@ -50,37 +50,39 @@ const BoardScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            {/* Bouton pour naviguer vers la liste des projets */}
-            <TouchableOpacity onPress={handleNavigateToProjects}>
-                <Text>Naviguer vers projets</Text>
-            </TouchableOpacity>
-
+        <TouchableOpacity onPress={handleNavigateToProjects} style={styles.navigateButton}>
+            <Text style={styles.navigateButtonText}>Naviguer vers les projets</Text>
+        </TouchableOpacity>
             {project && (
-                <View>
-                    <Text>Titre du projet: {project.title}</Text>
-                    <Text>Description: {project.description}</Text>
+                <View style={styles.projectInfoContainer}>
+                    <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
+                    <Text style={styles.projectDescription}>Description: {project.description}</Text>
                     {/* Afficher les tâches du projet */}
-                    <Text>Tâches :</Text>
+                    <Text style={styles.taskTitle}>Tâches :</Text>
                     <FlatList
+                        style={styles.tasksContainer}
                         data={tasks}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => (
                             <>
-                            <TouchableOpacity style={styles.projectContainer} onPress={() => handleTaskSelection(item.id)}>
-                                <Text>{item.title}</Text>
-                                <Text>{item.description}</Text>
+                            <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
+                                <Text style={styles.taskTitle}>{item.title}</Text>
+                                <Text style={styles.taskDescription}>{item.description}</Text>
                                 <TouchableOpacity
                                     onPress={() => handleDeleteTask(item.id)}
                                     style={styles.deleteButton}
                                     >
-                                    <Text>Supprimer</Text>
+                                    <Text style={styles.deleteButtonText}>Supprimer</Text>
                                 </TouchableOpacity>
                             </TouchableOpacity>
                             </>
                         )}
                     />
                 </View>
-            )}
+                )}
+            />
+            </View>
+        )}
         </View>
     );
 };

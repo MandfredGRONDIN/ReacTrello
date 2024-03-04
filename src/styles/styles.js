@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 60, // Augmentez la valeur de paddingTop pour décaler le contenu vers le bas
   },
   title: {
     fontSize: 24,
@@ -90,5 +90,37 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     marginVertical: 5,
+  },
+  // Styles for BoardScreen component
+  projectInfoContainer: {
+    marginBottom: 20,
+  },
+  taskItem: {
+    marginBottom: 20,
+    padding: 10,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 5,
+  },
+  taskTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  taskDescription: {
+    fontSize: 16,
+  },
+  tasksContainer: {
+    marginTop: 20,
+  },
+  navigateButton: {
+    marginBottom: 20,
+    padding: 10,
+    backgroundColor: '#007BFF',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  navigateButtonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
 });
