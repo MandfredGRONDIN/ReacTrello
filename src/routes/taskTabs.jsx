@@ -32,7 +32,7 @@ const TaskTabs = () => {
             />
             <Tab.Screen 
                 name='Status' 
-                component={StatusScreen} 
+                component={StatusListScreen} 
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Ionicons name="add-circle-outline" size={24} color={color} /> 
