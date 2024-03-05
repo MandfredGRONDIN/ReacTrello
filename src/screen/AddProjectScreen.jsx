@@ -1,6 +1,6 @@
 // src/screen/AddProjectScreen.jsx
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { createProject } from '../utils/project/create';
 import { UserContext } from '../context/userContext'; // Importez le contexte UserContext
 import { styles } from '../styles/styles';
@@ -13,7 +13,7 @@ const AddProjectScreen = () => {
 
   const handleAddProject = async () => {
     try {
-      await createProject(newProjectTitle, newProjectDescription, user.email); // Utilisez user.id comme ID de l'utilisateur
+      await createProject(newProjectTitle, newProjectDescription, user.uid); // Utilisez user.id comme ID de l'utilisateur
       setNewProjectTitle('');
       setNewProjectDescription('');
     } catch (error) {
