@@ -2,13 +2,14 @@
 import { collection, addDoc } from "firebase/firestore";
 import { firestore } from "../firebase/app";
 
-export async function createTask(projectId, title, description) {
+export async function createTask(projectId, title, description, statusIndex) {
     try {
         const tasksCollection = collection(firestore, `projects/${projectId}/tasks`);
         const newTaskRef = await addDoc(tasksCollection, {
             title: title,
             description: description,
-            completed: false
+            completed: false,
+            statusIndex : statusIndex
         });
         console.log("New task added with ID: ", newTaskRef.id);
         return newTaskRef.id;
