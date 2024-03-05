@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { styles } from '../styles/styles';
 import { createStatus } from '../utils/status/create';
-import { getStatus, deleteStatus } from '../utils/status/read';
+import { getStatus } from '../utils/status/read';
+import { deleteStatus } from '../utils/status/delete'
 
 const AddStatusListScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
