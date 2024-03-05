@@ -82,10 +82,7 @@ const BoardScreen = ({ navigation }) => {
             <TouchableOpacity onPress={handleNavigateToProjects} style={styles.navigateButton}>
                 <Text style={styles.navigateButtonText}>Revenir sur vos projets</Text>
             </TouchableOpacity>
-
-             {tasksWithoutStatus.length > 0 && (
-                <View style={styles.projectInfoContainer}>
-                    <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
+            <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
                     <Text style={styles.projectDescription}>Description: {project.description}</Text>
                     <TouchableOpacity style={styles.buttonShow} onPress={() => setShowInputs(!showInputs)}>
                         <Text style={styles.buttonText}>{showInputs ? 'Masquer la modification' : 'Modification du projet'}</Text>
@@ -111,6 +108,8 @@ const BoardScreen = ({ navigation }) => {
                     )}
                     <Text style={styles.taskTitle}>Tâches :</Text>
 
+             {tasksWithoutStatus.length > 0 && (
+                <View style={styles.projectInfoContainer}>
                     <FlatList
                         style={styles.tasksContainer}
                         data={tasksWithoutStatus}
