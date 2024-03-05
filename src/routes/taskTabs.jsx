@@ -3,6 +3,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import React from 'react';
 import AddTask from '../screen/AddTaskScreen';
 import TaskIdTabs from './taskIdTabs';
+import StatusScreen from '../screen/StatusScreen';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -12,6 +13,7 @@ const TaskTabs = () => {
         <Tab.Navigator>
             <Tab.Screen name='Task' component={TaskIdTabs} />
             <Tab.Screen name='AddTask' component={AddTask} />
+            <Tab.Screen name='AddStatus' component={StatusScreen} />
         </Tab.Navigator>
     );
 }
