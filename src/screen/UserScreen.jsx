@@ -14,7 +14,7 @@ const User = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>User Screen</Text>
+            <Text style={styles.title}>Votre profil</Text>
             <Text style={styles.email}>{user.email}</Text>
             <TouchableOpacity style={styles.button} onPress={handleLogout}>
                 <Text style={styles.buttonText}>Déconnecter</Text>
