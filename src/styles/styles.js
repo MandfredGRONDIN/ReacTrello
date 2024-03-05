@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     borderColor: '#ccc',
     padding: 10,
     marginBottom: 10,
+    marginTop:5,
     borderRadius: 5,
   },
   button: {
@@ -94,6 +95,13 @@ export const styles = StyleSheet.create({
   projectInfoContainer: {
     marginBottom: 20,
   },
+  taskItemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    borderBottomColor: '#ccc',
+},
   taskItem: {
     marginBottom: 20,
     padding: 10,
@@ -112,11 +120,22 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   navigateButton: {
-    marginBottom: 20,
+    position: 'absolute',
+    top: 0,
+    left: 20,
     padding: 10,
-    backgroundColor: '#007BFF',
+    backgroundColor: '#4CAF50',
     borderRadius: 5,
     alignItems: 'center',
+  },
+  buttonShow: {
+    padding: 10,
+    backgroundColor: '#4CAF50',
+    borderRadius: 5,
+    alignItems: 'center',
+    marginBottom:5,
+    marginTop:5,
+    width: 200,
   },
   navigateButtonText: {
     color: '#FFFFFF',

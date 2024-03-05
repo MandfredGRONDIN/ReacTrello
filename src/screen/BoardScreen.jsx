@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TextInput, Alert, ScrollView } from 'react-native';
 import { UserContext } from '../context/userContext';
 import { styles } from '../styles/styles';
 import { getTasksByProjectId } from '../utils/task/read'; 
@@ -80,14 +80,14 @@ const BoardScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={handleNavigateToProjects} style={styles.navigateButton}>
-
-                <Text style={styles.navigateButtonText}>Navigate to Projects</Text>
+                <Text style={styles.navigateButtonText}>Revenir sur vos projets</Text>
             </TouchableOpacity>
+
              {tasksWithoutStatus.length > 0 && (
                 <View style={styles.projectInfoContainer}>
                     <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
                     <Text style={styles.projectDescription}>Description: {project.description}</Text>
-                    <TouchableOpacity style={styles.button} onPress={() => setShowInputs(!showInputs)}>
+                    <TouchableOpacity style={styles.buttonShow} onPress={() => setShowInputs(!showInputs)}>
                         <Text style={styles.buttonText}>{showInputs ? 'Masquer la modification' : 'Modification du projet'}</Text>
                     </TouchableOpacity>
                     {showInputs && (
@@ -110,7 +110,6 @@ const BoardScreen = ({ navigation }) => {
                         </>
                     )}
                     <Text style={styles.taskTitle}>Tâches :</Text>
-                    <Text style={styles.projectTitle}>Tasks without Status</Text>
 
                     <FlatList
                         style={styles.tasksContainer}
@@ -118,20 +117,23 @@ const BoardScreen = ({ navigation }) => {
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => (
                             <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
-                                <Text style={styles.taskTitle}>{item.title}</Text>
-                                <Text style={styles.taskDescription}>{item.description}</Text>
+                                <View style={styles.taskItemContainer}>
+                                    <View>
+                                        <Text style={styles.taskTitle}>{item.title}</Text>
+                                        <Text style={styles.taskDescription}>{item.description}</Text>
+                                    </View>
+                                    <TouchableOpacity
+                                        onPress={() => handleDeleteTask(item.id)}
+                                        style={styles.deleteButton}
+                                    >
+                                        <Text style={styles.deleteButtonText}>Delete</Text>
 
-                                <TouchableOpacity
-                                    onPress={() => handleDeleteTask(item.id)}
-                                    style={styles.deleteButton}
-                                >
-                                    <Text style={styles.deleteButtonText}>Delete</Text>
+                                    </TouchableOpacity>
 
-                                </TouchableOpacity>
+                                </View>
                             </TouchableOpacity>
                         )}
                     />
-                    
                 </View>
             )}
 
@@ -146,14 +148,19 @@ const BoardScreen = ({ navigation }) => {
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => (
                                 <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
-                                    <Text style={styles.taskTitle}>{item.title}</Text>
-                                    <Text style={styles.taskDescription}>{item.description}</Text>
-                                    <TouchableOpacity
-                                        onPress={() => handleDeleteTask(item.id)}
-                                        style={styles.deleteButton}
-                                    >
-                                        <Text style={styles.deleteButtonText}>Delete</Text>
-                                    </TouchableOpacity>
+                                    <View style={styles.taskItemContainer}>
+                                        <View>
+                                            <Text style={styles.taskTitle}>{item.title}</Text>
+                                            <Text style={styles.taskDescription}>{item.description}</Text>
+                                        </View>
+                                        <TouchableOpacity
+                                            onPress={() => handleDeleteTask(item.id)}
+                                            style={styles.deleteButton}
+                                        >
+                                            <Text style={styles.deleteButtonText}>Delete</Text>
+                                        </TouchableOpacity>
+
+                                    </View>
                                 </TouchableOpacity>
                             )}
                         />
