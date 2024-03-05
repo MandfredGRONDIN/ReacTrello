@@ -1,4 +1,3 @@
-// src/screnn/HomeScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { styles } from '../styles/styles';
@@ -26,7 +25,11 @@ const HomeScreen = ({ navigation, route }) => {
   const loadProjects = async () => {
     try {
       const projectsData = await getProjects();
-      setProjects(projectsData);
+  
+      // Filtrer les projets pour n'afficher que ceux créés par l'utilisateur actuel
+      const filteredProjects = projectsData.filter(project => project.createdBy === user.uid || project.members.includes(user.uid) );
+      
+      setProjects(filteredProjects);
     } catch (error) {
       console.error('Error loading projects:', error);
       // Gérer l'erreur de chargement des projets
