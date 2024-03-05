@@ -122,7 +122,7 @@ export const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-  // Styles for StatusScreen component
+  // Styles for StatusListScreen component
   statusContainer: {
     flex: 1,
     backgroundColor: '#fff',

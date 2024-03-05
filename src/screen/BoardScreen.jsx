@@ -85,7 +85,6 @@ const BoardScreen = ({ navigation }) => {
             </TouchableOpacity>
              {tasksWithoutStatus.length > 0 && (
                 <View style={styles.projectInfoContainer}>
-                    <Text style={styles.projectTitle}>Tasks without Status</Text>
                     <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
                     <Text style={styles.projectDescription}>Description: {project.description}</Text>
                     <TouchableOpacity style={styles.button} onPress={() => setShowInputs(!showInputs)}>
@@ -111,6 +110,7 @@ const BoardScreen = ({ navigation }) => {
                         </>
                     )}
                     <Text style={styles.taskTitle}>Tâches :</Text>
+                    <Text style={styles.projectTitle}>Tasks without Status</Text>
 
                     <FlatList
                         style={styles.tasksContainer}

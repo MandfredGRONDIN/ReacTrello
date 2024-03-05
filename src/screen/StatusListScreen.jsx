@@ -4,7 +4,7 @@ import { styles } from '../styles/styles';
 import { createStatus } from '../utils/status/create';
 import { getStatus, deleteStatus } from '../utils/status/read';
 
-const AddStatusScreen = ({ navigation }) => {
+const AddStatusListScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [statuses, setStatuses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,11 +25,24 @@ const AddStatusScreen = ({ navigation }) => {
     }
   };
 
+  const handleEditStatus = (statusId) => {
+    navigation.navigate('StatusId', { statusId });
+  };
+
   const handleAddStatus = async () => {
     try {
-      await createStatus(title); // Créer un nouveau statut
-      fetchStatuses(); // Rafraîchir la liste des statuts après l'ajout
-      setTitle(''); // Effacer le champ de saisie après l'ajout
+      // Vérifier si un status avec le même nom existe déjà
+      if (statuses.some(status => status.title === title)) {
+        Alert.alert('Error', 'Status with the same title already exists.');
+        return;
+      }
+  
+      // Créer un nouveau statut
+      await createStatus(title);
+      // Rafraîchir la liste des statuts après l'ajout
+      fetchStatuses();
+      // Effacer le champ de saisie après l'ajout
+      setTitle('');
     } catch (error) {
       console.error('Error adding status:', error);
       Alert.alert('Error', 'Failed to add status.');
@@ -53,8 +66,12 @@ const AddStatusScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => handleDeleteStatus(item.id)}>
         <Text>Delete</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleEditStatus(item.id)}>
+        <Text>Edit</Text>
+      </TouchableOpacity>
     </View>
   );
+  
 
   return (
     <View style={styles.container}>
@@ -85,4 +102,4 @@ const AddStatusScreen = ({ navigation }) => {
   );
 };
 
-export default AddStatusScreen;
+export default AddStatusListScreen;
