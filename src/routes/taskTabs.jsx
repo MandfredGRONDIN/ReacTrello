@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AddTask from '../screen/AddTaskScreen';
 import AddMember from '../screen/AddMemberScreen';
 import TaskIdTabs from './taskIdTabs';
-import StatusScreen from '../screen/StatusScreen';
+import StatusListScreen from '../screen/StatusListScreen';
 
 
 const Tab = createMaterialBottomTabNavigator();

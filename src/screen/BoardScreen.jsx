@@ -110,7 +110,7 @@ const BoardScreen = ({ navigation }) => {
                         </>
                     )}
                     <Text style={styles.taskTitle}>Tâches :</Text>
-                    <Text style={styles.projectTitle}>Tâches sans Status</Text>
+
                     <FlatList
                         style={styles.tasksContainer}
                         data={tasksWithoutStatus}
