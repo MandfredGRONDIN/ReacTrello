@@ -1,87 +1,116 @@
-// src/screen/BoardScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { UserContext } from '../context/userContext';
 import { styles } from '../styles/styles';
 import { getTasksByProjectId } from '../utils/task/read'; 
-import {deleteTask} from '../utils/task/delete';
+import { deleteTask } from '../utils/task/delete';
+import { updateProject } from '../utils/project/update'; 
 
 const BoardScreen = ({ navigation }) => {
     const { project, setProject } = useContext(UserContext);
-    const [tasks, setTasks] = useState([]); // État pour stocker les tâches du projet
+    const [tasks, setTasks] = useState([]);
+    const [newTitle, setNewTitle] = useState('');
+    const [newDescription, setNewDescription] = useState('');
+    const [showInputs, setShowInputs] = useState(false);
 
     useEffect(() => {
-        // Assurez-vous qu'un projet est sélectionné avant de récupérer les tâches
         if (project) {
-            // Fonction asynchrone pour récupérer les tâches liées au projet
+            setNewTitle(project.title);
+            setNewDescription(project.description);
             const fetchTasks = async () => {
                 try {
-                    const tasksData = await getTasksByProjectId(project.id); // Utilisez getTasksByProjectId
+                    const tasksData = await getTasksByProjectId(project.id);
                     setTasks(tasksData);
                 } catch (error) {
                     console.error('Erreur lors de la récupération des tâches :', error);
-                    // Gérer l'erreur si nécessaire
                 }
             };
 
-            fetchTasks(); // Appelez la fonction pour récupérer les tâches
+            fetchTasks();
         }
-    }, [project]); // Déclenchez l'effet chaque fois que le projet change
+    }, [project]);
 
     const handleNavigateToProjects = () => {
-        setProject(null); // Effacez le projet sélectionné
+        setProject(null);
     };
 
     const handleDeleteTask = async (taskId) => {
         try {
-            await deleteTask(project.id, taskId); // Appelez la fonction de suppression de tâche
-            // Mettez à jour l'état des tâches après la suppression de la tâche
+            await deleteTask(project.id, taskId);
             setTasks(tasks.filter(task => task.id !== taskId));
         } catch (error) {
             console.error('Erreur lors de la suppression de la tâche :', error);
-            // Gérer l'erreur si nécessaire
         }
     };
     
     const handleTaskSelection = (taskId) => {
-        // Naviguer vers l'écran de détails de la tâche en passant l'ID de la tâche en tant que paramètre
         navigation.navigate('TaskId', { taskId: taskId });
+    };
+
+    const handleUpdateProject = async () => {
+        try {
+            await updateProject(project.id, {
+                title: newTitle,
+                description: newDescription
+            });
+            setProject({ ...project, title: newTitle, description: newDescription });
+            Alert.alert('Succès', 'Projet mis à jour avec succès.');
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour du projet :', error);
+            Alert.alert('Erreur', 'Impossible de mettre à jour le projet. Veuillez réessayer plus tard.');
+        }
     };
 
     return (
         <View style={styles.container}>
-        <TouchableOpacity onPress={handleNavigateToProjects} style={styles.navigateButton}>
-            <Text style={styles.navigateButtonText}>Naviguer vers les projets</Text>
-        </TouchableOpacity>
+            <TouchableOpacity onPress={handleNavigateToProjects} style={styles.navigateButton}>
+                <Text style={styles.navigateButtonText}>Naviguer vers les projets</Text>
+            </TouchableOpacity>
             {project && (
                 <View style={styles.projectInfoContainer}>
                     <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
                     <Text style={styles.projectDescription}>Description: {project.description}</Text>
-                    {/* Afficher les tâches du projet */}
+                    <TouchableOpacity style={styles.button} onPress={() => setShowInputs(!showInputs)}>
+                        <Text style={styles.buttonText}>{showInputs ? 'Masquer la modification' : 'Modification du projet'}</Text>
+                    </TouchableOpacity>
+                    {showInputs && (
+                        <>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Nouveau titre du projet"
+                                value={newTitle}
+                                onChangeText={setNewTitle}
+                            />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Nouvelle description du projet"
+                                value={newDescription}
+                                onChangeText={setNewDescription}
+                            />
+                            <TouchableOpacity style={styles.button} onPress={handleUpdateProject}>
+                                <Text style={styles.buttonText}>Mettre à jour le projet</Text>
+                            </TouchableOpacity>
+                        </>
+                    )}
                     <Text style={styles.taskTitle}>Tâches :</Text>
                     <FlatList
                         style={styles.tasksContainer}
                         data={tasks}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => (
-                            <>
                             <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
                                 <Text style={styles.taskTitle}>{item.title}</Text>
                                 <Text style={styles.taskDescription}>{item.description}</Text>
-                                <TouchableOpacity
-                                    onPress={() => handleDeleteTask(item.id)}
-                                    style={styles.deleteButton}
-                                    >
+                                <TouchableOpacity onPress={() => handleDeleteTask(item.id)} style={styles.deleteButton}>
                                     <Text style={styles.deleteButtonText}>Supprimer</Text>
                                 </TouchableOpacity>
                             </TouchableOpacity>
-                            </>
                         )}
                     />
+                    
                 </View>
-                )}
-
-            </View>
+            )}
+        </View>
     );
 };
 

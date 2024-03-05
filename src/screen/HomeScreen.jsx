@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { styles } from '../styles/styles';
 import { UserContext } from '../context/userContext';
 import { getProjects } from '../utils/project/read.js'
