@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { UserContext } from '../context/userContext';
-import { addMemberToProject } from '../utils/project/update'; 
-import { getUserIdByEmail } from '../utils/auth/getUser';
-import { styles } from '../styles/styles';
+import { UserContext } from '../../context/userContext';
+import { addMemberToProject } from '../../utils/project/update'; 
+import { getUserIdByEmail } from '../../utils/auth/getUser';
+import { styles } from '../../styles/styles';
 
 const AddMemberScreen = () => {
     const { project } = useContext(UserContext);

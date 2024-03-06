@@ -1,4 +1,3 @@
-// src/utils/task/delete.js
 import { doc, deleteDoc } from "firebase/firestore";
 import { firestore } from "../firebase/app";
 

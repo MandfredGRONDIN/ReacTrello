@@ -1,5 +1,4 @@
-// src/utils/auth/logUser.js
-import { sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/app"
 
 const ERROR_MESSAGES = {
