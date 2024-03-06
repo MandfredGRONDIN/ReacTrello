@@ -14,6 +14,14 @@ const AddStatusListScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchStatuses();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     fetchStatuses();
   }, []);
 

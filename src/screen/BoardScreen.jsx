@@ -17,23 +17,31 @@ const BoardScreen = ({ navigation }) => {
   const [showInputs, setShowInputs] = useState(false);
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchTasks();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     if (project) {
       setNewTitle(project.title);
       setNewDescription(project.description);
-      const fetchTasks = async () => {
-        try {
-          const tasksData = await getTasksByProjectId(project.id);
-          setTasks(tasksData);
-          const statusesData = await getStatus(project.id);
-          setStatuses(statusesData);
-        } catch (error) {
-          console.error('Erreur lors de la récupération des tâches :', error);
-        }
-      };
       fetchTasks();
     }
   }, [project]);
-
+  
+  const fetchTasks = async () => {
+    try {
+      const tasksData = await getTasksByProjectId(project.id);
+      setTasks(tasksData);
+      const statusesData = await getStatus(project.id);
+      setStatuses(statusesData);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des tâches :', error);
+    }
+  };
   const handleDeleteTask = async (taskId) => {
     try {
       await deleteTask(project.id, taskId);
