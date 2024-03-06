@@ -1,11 +1,10 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import AddTask from '../screen/AddTaskScreen';
-import AddMember from '../screen/AddMemberScreen';
+import AddTask from '../components/screen/AddTaskScreen';
+import AddMember from '../components/screen/AddMemberScreen';
 import TaskIdTabs from './taskIdTabs';
 import StatusListScreen from '../screen/StatusListScreen';
-
 
 const Tab = createMaterialBottomTabNavigator();
 
