@@ -22,6 +22,7 @@ const TaskId = ({ route }) => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             fetchTaskDetails();
+            fetchStatuses();
         });
 
         return unsubscribe;
