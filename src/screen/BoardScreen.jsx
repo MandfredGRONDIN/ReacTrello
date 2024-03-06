@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Alert, FlatList, Animated } from 'react-native';
 import { UserContext } from '../context/userContext';
 import { styles } from '../styles/styles';
 import { getTasksByProjectId } from '../utils/task/read'; 
@@ -124,13 +124,6 @@ const BoardScreen = ({ navigation }) => {
         </>
       )}
       <Text style={styles.taskTitle}>Tâches :</Text>
-          {/* Render tasks */}
-          <FlatList
-              data={tasks}
-              renderItem={renderTaskItem}
-              keyExtractor={(item) => item.id.toString()}
-          />
-
           {/* Render tasks grouped by status */}
           {statuses.map(status => (
               <View key={status.id} style={styles.projectInfoContainer}>

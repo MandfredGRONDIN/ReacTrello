@@ -1,4 +1,3 @@
-// src/screen/AddTaskScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -42,6 +41,9 @@ const AddTaskScreen = ({ navigation }) => {
         }
     };
 
+    // Vérifie si un statut est sélectionné
+    const isStatusSelected = statusIndex !== '';
+
     if (loading) {
         return (
             <View style={styles.container}>
@@ -70,12 +72,17 @@ const AddTaskScreen = ({ navigation }) => {
                 onValueChange={(itemValue) => setStatusIndex(itemValue)}
                 style={styles.input}
             >
-                <Picker.Item label="Select status (optional)" value="" />
+                <Picker.Item label="Select status" value="" />
                 {statuses.map((status, index) => (
                     <Picker.Item key={index} label={status.title} value={index} />
                 ))}
             </Picker>
-            <TouchableOpacity style={styles.button} onPress={handleAddTask}>
+            {/* Désactive le bouton Add Task si aucun statut n'est sélectionné */}
+            <TouchableOpacity 
+                style={[styles.button, !isStatusSelected && { backgroundColor: '#ccc' }]}
+                onPress={isStatusSelected ? handleAddTask : null}
+                disabled={!isStatusSelected}
+            >
                 <Text style={styles.buttonText}>Add Task</Text>
             </TouchableOpacity>
         </View>
