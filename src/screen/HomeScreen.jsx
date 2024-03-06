@@ -1,3 +1,4 @@
+// src/screen/HomeScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { styles } from '../styles/styles';

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Alert, FlatList, Animated } from 'react-native';
 import { UserContext } from '../context/userContext';
 import { styles } from '../styles/styles';
 import { getTasksByProjectId } from '../utils/task/read'; 
@@ -69,6 +69,31 @@ const BoardScreen = ({ navigation }) => {
     tasks: tasks.filter(task => task.statusIndex === status.id)
   }));
 
+  const renderTaskItem = ({ item }) => {
+    const animatedValue = new Animated.Value(300); // Valeur initiale pour translateY
+    Animated.timing(animatedValue, {
+        toValue: 0, // Valeur finale pour translateY
+        duration: 500, // Durée de l'animation en millisecondes
+        useNativeDriver: true // Utilise le pilote natif pour les performances
+    }).start(); // Démarre l'animation
+
+    return (
+        <Animated.View style={{ transform: [{ translateY: animatedValue }] }}>
+            <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
+                <View style={styles.taskItemContainer}>
+                    <View>
+                        <Text style={styles.taskTitle}>{item.title}</Text>
+                        <Text style={styles.taskDescription}>{item.description}</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => handleDeleteTask(item.id)} style={styles.deleteButton}>
+                        <Text style={styles.deleteButtonText}>Supprimer</Text>
+                    </TouchableOpacity>
+                </View>
+            </TouchableOpacity>
+        </Animated.View>
+    );
+  };
+  
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => setProject(null)} style={styles.navigateButton}>
@@ -99,27 +124,16 @@ const BoardScreen = ({ navigation }) => {
         </>
       )}
       <Text style={styles.taskTitle}>Tâches :</Text>
-      {tasksWithoutStatus.length > 0 && (
-            <View style={styles.projectInfoContainer}>
-            <Text style={styles.projectTitle}>Sans status</Text>
-            <TaskList
-            tasks={tasksWithoutStatus}
-            onDeleteTask={handleDeleteTask}
-            onSelectTask={handleTaskSelection}
-            />
-        </View>
-      )}
-      {groupedTasks.map(group => (
-        group && group.tasks.length > 0 && (
-            <View key={group.status.id} style={styles.projectInfoContainer}>
-            <Text style={styles.projectTitle}>{group.status.title}</Text>
-            <TaskList
-                tasks={group.tasks}
-                onDeleteTask={handleDeleteTask}
-                onSelectTask={handleTaskSelection}
-            />
-            </View>
-        )
+          {/* Render tasks grouped by status */}
+          {statuses.map(status => (
+              <View key={status.id} style={styles.projectInfoContainer}>
+                  <Text style={styles.projectTitle}>{status.title}</Text>
+                  <FlatList
+                      data={tasks.filter(task => task.statusIndex === status.id)}
+                      renderItem={renderTaskItem}
+                      keyExtractor={(item) => item.id.toString()}
+                  />
+              </View>
         ))}
 
     </View>

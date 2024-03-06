@@ -1,3 +1,4 @@
+// src/screen/EditStatusScreen.jsx
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../../styles/styles';

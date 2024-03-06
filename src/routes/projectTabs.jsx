@@ -1,3 +1,4 @@
+// src/routes/ProjectTab.jsx
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons'; 

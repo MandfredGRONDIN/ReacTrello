@@ -1,3 +1,4 @@
+// src/screen/AddMemberScreen.jsx
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { UserContext } from '../../context/userContext';
