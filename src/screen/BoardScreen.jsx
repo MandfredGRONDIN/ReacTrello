@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, TextInput, Alert, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TextInput, Alert, Animated } from 'react-native';
 import { UserContext } from '../context/userContext';
 import { styles } from '../styles/styles';
-import { getTasksByProjectId } from '../utils/task/read'; 
-
+import { getTasksByProjectId } from '../utils/task/read';
 import { getStatus } from '../utils/status/read';
 import { deleteTask } from '../utils/task/delete';
-
-import { updateProject } from '../utils/project/update'; 
-
+import { updateProject } from '../utils/project/update';
 
 const BoardScreen = ({ navigation }) => {
     const { project, setProject } = useContext(UserContext);
@@ -54,14 +51,6 @@ const BoardScreen = ({ navigation }) => {
     const handleTaskSelection = (taskId) => {
         navigation.navigate('TaskId', { taskId });
     };
-  
-    // Group tasks by status
-    const groupedTasks = statuses.map(status => ({
-        status,
-        tasks: tasks.filter(task => task.statusIndex === status.id)
-    }));
-    // Filter tasks without status
-    const tasksWithoutStatus = tasks.filter(task => task.statusIndex === undefined || task.statusIndex === null);
 
     const handleUpdateProject = async () => {
         try {
@@ -77,94 +66,79 @@ const BoardScreen = ({ navigation }) => {
         }
     };
 
+    const renderTaskItem = ({ item }) => {
+        const animatedValue = new Animated.Value(300); // Valeur initiale pour translateY
+        Animated.timing(animatedValue, {
+            toValue: 0, // Valeur finale pour translateY
+            duration: 500, // Durée de l'animation en millisecondes
+            useNativeDriver: true // Utilise le pilote natif pour les performances
+        }).start(); // Démarre l'animation
+
+        return (
+            <Animated.View style={{ transform: [{ translateY: animatedValue }] }}>
+                <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
+                    <View style={styles.taskItemContainer}>
+                        <View>
+                            <Text style={styles.taskTitle}>{item.title}</Text>
+                            <Text style={styles.taskDescription}>{item.description}</Text>
+                        </View>
+                        <TouchableOpacity onPress={() => handleDeleteTask(item.id)} style={styles.deleteButton}>
+                            <Text style={styles.deleteButtonText}>Supprimer</Text>
+                        </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
+            </Animated.View>
+        );
+    };
+
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={handleNavigateToProjects} style={styles.navigateButton}>
                 <Text style={styles.navigateButtonText}>Revenir sur vos projets</Text>
             </TouchableOpacity>
             <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
-                    <Text style={styles.projectDescription}>Description: {project.description}</Text>
-                    <TouchableOpacity style={styles.buttonShow} onPress={() => setShowInputs(!showInputs)}>
-                        <Text style={styles.buttonText}>{showInputs ? 'Masquer la modification' : 'Modification du projet'}</Text>
+            <Text style={styles.projectDescription}>Description: {project.description}</Text>
+            <TouchableOpacity style={styles.buttonShow} onPress={() => setShowInputs(!showInputs)}>
+                <Text style={styles.buttonText}>{showInputs ? 'Masquer la modification' : 'Modification du projet'}</Text>
+            </TouchableOpacity>
+            {showInputs && (
+                <>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Nouveau titre du projet"
+                        value={newTitle}
+                        onChangeText={setNewTitle}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Nouvelle description du projet"
+                        value={newDescription}
+                        onChangeText={setNewDescription}
+                    />
+                    <TouchableOpacity style={styles.button} onPress={handleUpdateProject}>
+                        <Text style={styles.buttonText}>Mettre à jour le projet</Text>
                     </TouchableOpacity>
-                    {showInputs && (
-                        <>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Nouveau titre du projet"
-                                value={newTitle}
-                                onChangeText={setNewTitle}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Nouvelle description du projet"
-                                value={newDescription}
-                                onChangeText={setNewDescription}
-                            />
-                            <TouchableOpacity style={styles.button} onPress={handleUpdateProject}>
-                                <Text style={styles.buttonText}>Mettre à jour le projet</Text>
-                            </TouchableOpacity>
-                        </>
-                    )}
-                    <Text style={styles.taskTitle}>Tâches :</Text>
+                </>
+            )}
+            <Text style={styles.taskTitle}>Tâches :</Text>
 
-             {tasksWithoutStatus.length > 0 && (
-                <View style={styles.projectInfoContainer}>
+            {/* Render tasks */}
+            <FlatList
+                data={tasks}
+                renderItem={renderTaskItem}
+                keyExtractor={(item) => item.id.toString()}
+            />
+
+            {/* Render tasks grouped by status */}
+            {statuses.map(status => (
+                <View key={status.id} style={styles.projectInfoContainer}>
+                    <Text style={styles.projectTitle}>{status.title}</Text>
                     <FlatList
-                        style={styles.tasksContainer}
-                        data={tasksWithoutStatus}
+                        data={tasks.filter(task => task.statusIndex === status.id)}
+                        renderItem={renderTaskItem}
                         keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
-                                <View style={styles.taskItemContainer}>
-                                    <View>
-                                        <Text style={styles.taskTitle}>{item.title}</Text>
-                                        <Text style={styles.taskDescription}>{item.description}</Text>
-                                    </View>
-                                    <TouchableOpacity
-                                        onPress={() => handleDeleteTask(item.id)}
-                                        style={styles.deleteButton}
-                                    >
-                                        <Text style={styles.deleteButtonText}>Delete</Text>
-
-                                    </TouchableOpacity>
-
-                                </View>
-                            </TouchableOpacity>
-                        )}
                     />
                 </View>
-            )}
-
-   {/* Render tasks grouped by status */}
-            {groupedTasks.map(group => (
-                group.tasks.length > 0 && (
-                    <View key={group.status.id} style={styles.projectInfoContainer}>
-                        <Text style={styles.projectTitle}>{group.status.title}</Text>
-                        <FlatList
-                            style={styles.tasksContainer}
-                            data={group.tasks}
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
-                                    <View style={styles.taskItemContainer}>
-                                        <View>
-                                            <Text style={styles.taskTitle}>{item.title}</Text>
-                                            <Text style={styles.taskDescription}>{item.description}</Text>
-                                        </View>
-                                        <TouchableOpacity
-                                            onPress={() => handleDeleteTask(item.id)}
-                                            style={styles.deleteButton}
-                                        >
-                                            <Text style={styles.deleteButtonText}>Delete</Text>
-                                        </TouchableOpacity>
-
-                                    </View>
-                                </TouchableOpacity>
-                            )}
-                        />
-                    </View>
-                )
             ))}
         </View>
     );

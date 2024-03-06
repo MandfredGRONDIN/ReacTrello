@@ -1,3 +1,4 @@
+// src/screen/StatusListScreen.jsx
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { styles } from '../styles/styles';

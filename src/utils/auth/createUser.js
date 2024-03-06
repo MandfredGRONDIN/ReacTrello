@@ -1,3 +1,4 @@
+// src/utils/auth/createUser.js
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
 import { auth, firestore } from "../firebase/app"

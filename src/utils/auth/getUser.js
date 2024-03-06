@@ -1,3 +1,4 @@
+// src/utils/auth/getUser.js
 import { query, where, getDocs, collection } from "firebase/firestore";
 import { firestore } from "../firebase/app";
 

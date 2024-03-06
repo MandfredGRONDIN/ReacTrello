@@ -1,5 +1,4 @@
 // src/screen/RegisterScreen.jsx
-
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../styles/styles';

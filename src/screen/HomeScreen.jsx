@@ -1,10 +1,10 @@
+// src/screen/HomeScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { styles } from '../styles/styles';
 import { UserContext } from '../context/userContext';
 import { getProjects } from '../utils/project/read.js'
 import { deleteProject } from '../utils/project/delete.js'
-import { addMemberToProject } from '../utils/project/update.js'
 
 const HomeScreen = ({ navigation, route }) => {
   const { user, setProject } = useContext(UserContext);
