@@ -17,7 +17,7 @@ const AddTaskScreen = ({ navigation }) => {
     useEffect(() => {
         const fetchStatuses = async () => {
             try {
-                const statusesData = await getStatus();
+                const statusesData = await getStatus(project.id);
                 setStatuses(statusesData);
                 setLoading(false);
             } catch (error) {

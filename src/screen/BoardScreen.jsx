@@ -24,7 +24,7 @@ const BoardScreen = ({ navigation }) => {
         try {
           const tasksData = await getTasksByProjectId(project.id);
           setTasks(tasksData);
-          const statusesData = await getStatus();
+          const statusesData = await getStatus(project.id);
           setStatuses(statusesData);
         } catch (error) {
           console.error('Erreur lors de la récupération des tâches :', error);

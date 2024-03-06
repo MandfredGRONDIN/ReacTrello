@@ -39,7 +39,7 @@ const TaskId = ({ route }) => {
                 setTask(taskData);
                 setNewTaskTitle(taskData.title);
                 setNewTaskDescription(taskData.description);
-                setNewStatusId(taskData.statusIndex); // Définir l'ID du statut de la tâche
+                setNewStatusId(taskData.statusIndex); 
             } catch (error) {
                 console.error('Erreur lors de la récupération des informations de la tâche :', error);
             }
@@ -48,7 +48,7 @@ const TaskId = ({ route }) => {
 
     const fetchStatuses = async () => {
         try {
-            const statusesData = await getStatus();
+            const statusesData = await getStatus(project.id);
             setStatuses(statusesData);
         } catch (error) {
             console.error('Erreur lors de la récupération des statuts :', error);
@@ -102,7 +102,7 @@ const TaskId = ({ route }) => {
                             onValueChange={(itemValue) => setNewStatusId(itemValue)}
                             style={styles.input}
                             >
-                            <Picker.Item label="Select status (optional)" value={null} />
+                            <Picker.Item label="Select status" value={null} />
                             {statuses.map((status, index) => (
                             <Picker.Item key={index} label={status.title} value={status.id} />
                             ))}

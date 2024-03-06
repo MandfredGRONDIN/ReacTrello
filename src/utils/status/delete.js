@@ -1,14 +1,13 @@
 import { doc, deleteDoc } from "firebase/firestore";
 import { firestore } from "../firebase/app";
 
-export async function deleteStatus(statusId) {
+export async function deleteStatus(projectId, statusId) {
     try {
-        const statuskRef = doc(firestore, `status`, statusId);
-        await deleteDoc(statuskRef);
-        console.log("Task deleted:", statusId);
+        const statusRef = doc(firestore, `projects/${projectId}/status`, statusId);
+        await deleteDoc(statusRef);
+        console.log("Status deleted:", statusId);
     } catch (error) {
-        console.error("Error deleting task:", error);
-        throw new Error("Unable to delete task.");
+        console.error("Error deleting status:", error);
+        throw new Error("Unable to delete status.");
     }
 }
-

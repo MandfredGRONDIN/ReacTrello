@@ -1,12 +1,14 @@
 // src/screen/StatusListScreen.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { styles } from '../styles/styles';
 import { createStatus } from '../utils/status/create';
 import { getStatus } from '../utils/status/read';
 import { deleteStatus } from '../utils/status/delete'
+import { UserContext } from '../context/userContext';
 
 const AddStatusListScreen = ({ navigation }) => {
+  const { project } = useContext(UserContext);
   const [title, setTitle] = useState('');
   const [statuses, setStatuses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,7 +19,7 @@ const AddStatusListScreen = ({ navigation }) => {
 
   const fetchStatuses = async () => {
     try {
-      const statusesData = await getStatus();
+      const statusesData = await getStatus(project.id);
       setStatuses(statusesData);
       setLoading(false);
     } catch (error) {
@@ -28,7 +30,7 @@ const AddStatusListScreen = ({ navigation }) => {
   };
 
   const handleEditStatus = (statusId) => {
-    navigation.navigate('StatusId', { statusId });
+    navigation.navigate('EditStatusScreen', { statusId });
   };
 
   const handleAddStatus = async () => {
@@ -38,7 +40,7 @@ const AddStatusListScreen = ({ navigation }) => {
         return;
       }
   
-      await createStatus(title);
+      await createStatus(project.id, title);
       fetchStatuses();
       setTitle('');
     } catch (error) {
@@ -49,7 +51,7 @@ const AddStatusListScreen = ({ navigation }) => {
 
   const handleDeleteStatus = async (statusId) => {
     try {
-      await deleteStatus(statusId);
+      await deleteStatus(project.id, statusId);
       setStatuses(statuses.filter(status => status.id !== statusId));
       Alert.alert('Success', 'Status deleted successfully.');
     } catch (error) {
@@ -61,11 +63,11 @@ const AddStatusListScreen = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <View style={styles.statusItem}>
       <Text>{item.title}</Text>
-      <TouchableOpacity onPress={() => handleDeleteStatus(item.id)}>
-        <Text>Supprimer</Text>
-      </TouchableOpacity>
       <TouchableOpacity onPress={() => handleEditStatus(item.id)}>
         <Text>Modifier</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleDeleteStatus(item.id)}>
+        <Text>Supprimer</Text>
       </TouchableOpacity>
     </View>
   );

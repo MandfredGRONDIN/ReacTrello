@@ -1,24 +1,24 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, getDoc } from "firebase/firestore";
 import { firestore } from "../firebase/app";
 
-export async function getStatus() {
+export async function getStatus(projectId) {
     try {
-        const projectsCollection = collection(firestore, 'status');
-        const querySnapshot = await getDocs(projectsCollection);
-        const projects = [];
+        const statusCollection = collection(firestore, `projects/${projectId}/status`);
+        const querySnapshot = await getDocs(statusCollection);
+        const statuses = [];
         querySnapshot.forEach(doc => {
-            projects.push({ id: doc.id, ...doc.data() });
+            statuses.push({ id: doc.id, ...doc.data() });
         });
-        return projects;
+        return statuses;
     } catch (error) {
-        console.error("Error getting projects: ", error);
-        throw new Error("Unable to get projects.");
+        console.error("Error getting statuses: ", error);
+        throw new Error("Unable to get statuses.");
     }
 }
 
-export async function getStatusById(statusId) {
+export async function getStatusById(projectId, statusId) {
     try {
-        const statusRef = doc(firestore, `status`, statusId);
+        const statusRef = doc(firestore, `projects/${projectId}/status`, statusId);
         const statusDoc = await getDoc(statusRef);
 
         if (statusDoc.exists()) {
