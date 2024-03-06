@@ -1,7 +1,5 @@
-// src/utils/status/read.js
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { firestore } from "../firebase/app";
-import { query } from "firebase/database";
 
 export async function getStatus() {
     try {

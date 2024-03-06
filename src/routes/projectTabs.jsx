@@ -1,9 +1,9 @@
 // src/routes/ProjectTab.jsx
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React from 'react';
-import { Ionicons } from '@expo/vector-icons'; // Importez les icônes Ionicons
+import { Ionicons } from '@expo/vector-icons'; 
 import User from '../screen/UserScreen';
-import AddProject from '../screen/AddProjectScreen';
+import AddProject from '../components/screen/AddProjectScreen';
 import HomeScreen from '../screen/HomeScreen';
 
 const Tab = createMaterialBottomTabNavigator();

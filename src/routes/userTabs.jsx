@@ -1,7 +1,6 @@
 // src/routes/userTab.jsx
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Login from '../screen/LoginScreen';
 import Register from '../screen/RegisterScreen';

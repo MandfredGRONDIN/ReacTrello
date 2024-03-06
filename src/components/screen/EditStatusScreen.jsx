@@ -1,9 +1,9 @@
 // src/screen/EditStatusScreen.jsx
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { styles } from '../styles/styles';
-import { getStatusById } from '../utils/status/read';
-import { updateStatus } from '../utils/status/update';
+import { styles } from '../../styles/styles';
+import { getStatusById } from '../../utils/status/read';
+import { updateStatus } from '../../utils/status/update';
 
 const EditStatusScreen = ({ route }) => {
     const { statusId } = route.params;
@@ -31,7 +31,7 @@ const EditStatusScreen = ({ route }) => {
     const handleUpdateStatus = async () => {
         try {
             await updateStatus(statusId, { title: newStatusTitle });
-            Alert.alert('Success', 'Status title updated successfully.');
+            Alert.alert('Success', 'Titre du statut mis à jour avec succès.');
         } catch (error) {
             console.error('Error updating status title:', error);
             Alert.alert('Error', 'Failed to update status title.');
@@ -41,10 +41,10 @@ const EditStatusScreen = ({ route }) => {
     return (
         <View style={styles.container}>
             {loading ? (
-                <Text>Loading...</Text>
+                <Text>Chargement...</Text>
             ) : (
                 <View>
-                    <Text>Current Status Title: {status.title}</Text>
+                    <Text>Titre du status actuel: {status.title}</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="New status title"
@@ -52,7 +52,7 @@ const EditStatusScreen = ({ route }) => {
                         onChangeText={setNewStatusTitle}
                     />
                     <TouchableOpacity style={styles.button} onPress={handleUpdateStatus}>
-                        <Text style={styles.buttonText}>Update Status Title</Text>
+                        <Text style={styles.buttonText}>Modifier le status</Text>
                     </TouchableOpacity>
                 </View>
             )}

@@ -2,10 +2,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { styles } from '../styles/styles';
-import { UserContext } from '../context/userContext';
-import { createTask } from '../utils/task/create';
-import { getStatus } from '../utils/status/read';
+import { styles } from '../../styles/styles';
+import { UserContext } from '../../context/userContext';
+import { createTask } from '../../utils/task/create';
+import { getStatus } from '../../utils/status/read';
 
 const AddTaskScreen = ({ navigation }) => {
     const { project } = useContext(UserContext);

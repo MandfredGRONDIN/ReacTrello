@@ -33,17 +33,13 @@ const AddStatusListScreen = ({ navigation }) => {
 
   const handleAddStatus = async () => {
     try {
-      // Vérifier si un status avec le même nom existe déjà
       if (statuses.some(status => status.title === title)) {
-        Alert.alert('Error', 'Status with the same title already exists.');
+        Alert.alert('Error', 'Un status avec ce titre existe déjà.');
         return;
       }
   
-      // Créer un nouveau statut
       await createStatus(title);
-      // Rafraîchir la liste des statuts après l'ajout
       fetchStatuses();
-      // Effacer le champ de saisie après l'ajout
       setTitle('');
     } catch (error) {
       console.error('Error adding status:', error);
@@ -66,10 +62,10 @@ const AddStatusListScreen = ({ navigation }) => {
     <View style={styles.statusItem}>
       <Text>{item.title}</Text>
       <TouchableOpacity onPress={() => handleDeleteStatus(item.id)}>
-        <Text>Delete</Text>
+        <Text>Supprimer</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => handleEditStatus(item.id)}>
-        <Text>Edit</Text>
+        <Text>Modifier</Text>
       </TouchableOpacity>
     </View>
   );
@@ -77,18 +73,18 @@ const AddStatusListScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add Status</Text>
+      <Text style={styles.title}>Ajouter un status</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter status title"
+        placeholder="Entrer le titre du status"
         value={title}
         onChangeText={setTitle}
       />
       <TouchableOpacity style={styles.button} onPress={handleAddStatus}>
-        <Text style={styles.buttonText}>Add Status</Text>
+        <Text style={styles.buttonText}>Ajouter Status</Text>
       </TouchableOpacity>
 
-      <Text style={[styles.title, { marginTop: 20 }]}>Status List</Text>
+      <Text style={[styles.title, { marginTop: 20 }]}>Liste des status</Text>
       <FlatList
         data={statuses}
         renderItem={renderItem}
@@ -96,7 +92,7 @@ const AddStatusListScreen = ({ navigation }) => {
         contentContainerStyle={{ flexGrow: 1 }}
         ListEmptyComponent={() => (
           <View style={styles.centeredView}>
-            <Text>No status found.</Text>
+            <Text>Pas de status trouver.</Text>
           </View>
         )}
       />
