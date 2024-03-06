@@ -11,6 +11,19 @@ export async function createProject(title, description, userId) {
             members: [userId]
         });
         console.log("New project added with ID: ", newProjectRef.id);
+        
+        const statusCollection = collection(firestore, `projects/${newProjectRef.id}/status`);
+        
+        const defaultStatuses = [
+            { title: "À faire" },
+            { title: "En cours" },
+            { title: "Terminé" }
+        ];
+        
+        for (const status of defaultStatuses) {
+            await addDoc(statusCollection, status);
+        }
+        
         return newProjectRef.id;
     } catch (error) {
         console.error("Error adding project: ", error);

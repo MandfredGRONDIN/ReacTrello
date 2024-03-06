@@ -1,9 +1,9 @@
 import { doc, updateDoc } from "firebase/firestore";
 import { firestore } from "../firebase/app";
 
-export async function updateStatus(statusId, newData) {
+export async function updateStatus(projectId, statusId, newData) {
     try {
-        const statusRef = doc(firestore, `status`, statusId);
+        const statusRef = doc(firestore, `projects/${projectId}/status`, statusId);
         await updateDoc(statusRef, newData);
         console.log("Status updated:", statusId);
     } catch (error) {

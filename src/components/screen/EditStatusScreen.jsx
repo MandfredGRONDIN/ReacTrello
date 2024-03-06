@@ -1,11 +1,12 @@
 // src/screen/EditStatusScreen.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../../styles/styles';
 import { getStatusById } from '../../utils/status/read';
 import { updateStatus } from '../../utils/status/update';
-
+import { UserContext } from '../../context/userContext';
 const EditStatusScreen = ({ route }) => {
+    const { project } = useContext(UserContext);
     const { statusId } = route.params;
     const [status, setStatus] = useState(null);
     const [newStatusTitle, setNewStatusTitle] = useState('');
@@ -17,9 +18,9 @@ const EditStatusScreen = ({ route }) => {
 
     const fetchStatusDetails = async () => {
         try {
-            const statusData = await getStatusById(statusId);
-            setStatus(statusData);
-            setNewStatusTitle(statusData.title);
+            const statusData = await getStatusById(project.id, statusId);
+            setStatus(statusData); // Assurez-vous que statusData n'est pas null
+            setNewStatusTitle(statusData.title); // Assurez-vous que statusData a une propriété "title"
             setLoading(false);
         } catch (error) {
             console.error('Error fetching status:', error);
@@ -30,7 +31,7 @@ const EditStatusScreen = ({ route }) => {
 
     const handleUpdateStatus = async () => {
         try {
-            await updateStatus(statusId, { title: newStatusTitle });
+            await updateStatus(project.id, statusId, { title: newStatusTitle });
             Alert.alert('Success', 'Titre du statut mis à jour avec succès.');
         } catch (error) {
             console.error('Error updating status title:', error);
@@ -44,20 +45,27 @@ const EditStatusScreen = ({ route }) => {
                 <Text>Chargement...</Text>
             ) : (
                 <View>
-                    <Text>Titre du status actuel: {status.title}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="New status title"
-                        value={newStatusTitle}
-                        onChangeText={setNewStatusTitle}
-                    />
-                    <TouchableOpacity style={styles.button} onPress={handleUpdateStatus}>
-                        <Text style={styles.buttonText}>Modifier le status</Text>
-                    </TouchableOpacity>
+                    {status ? (
+                        <View>
+                            <Text>Titre du statut actuel: {status.title}</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="New status title"
+                                value={newStatusTitle}
+                                onChangeText={setNewStatusTitle}
+                            />
+                            <TouchableOpacity style={styles.button} onPress={handleUpdateStatus}>
+                                <Text style={styles.buttonText}>Modifier le statut</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ) : (
+                        <Text>Statut non trouvé.</Text>
+                    )}
                 </View>
             )}
         </View>
     );
 };
+
 
 export default EditStatusScreen;
