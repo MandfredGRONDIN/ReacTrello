@@ -1,22 +1,22 @@
-// src/screen/RegisterScreen.jsx
-
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../styles/styles';
 import { createUser } from '../utils/auth/createUser';
-import { UserContext } from '../context/userContext';
+import { useNavigation } from '@react-navigation/native';
 
 const RegisterScreen = () => {
   const [login, setLogin] = useState('');
   const [pass, setPass] = useState('');
   const [confirm, setConfirm] = useState('');
-  const { setUser } = useContext(UserContext);
+  const navigation = useNavigation(); 
 
   const handleRegister = async () => {
     if (pass === confirm) {
       try {
-        const user = await createUser(login, pass);
-        setUser(user);
+        await createUser(login, pass);
+        Alert.alert("Un lien de vérification a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception pour continuer.", "", [
+          { text: "OK", onPress: () => navigation.navigate('login') } 
+        ]);
       } catch (error) {
         console.log(error);
         Alert.alert(error.message);
