@@ -1,5 +1,5 @@
 // src/utils/auth/logUser.js
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/app"
 
 const ERROR_MESSAGES = {
@@ -12,8 +12,13 @@ const ERROR_MESSAGES = {
 
 export async function logUser(email, password) {
     try {
+        console.log(auth, email, password);
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        return userCredential.user;
+        const user = userCredential.user;
+        const emailVerified = user.emailVerified;
+        
+        console.log(emailVerified);
+        return { user, emailVerified };
     }
     catch (error) {
         const errorMessage = ERROR_MESSAGES[error.code] || "Une erreur s'est produite lors de la connexion de l'utilisateur.";
