@@ -1,30 +1,49 @@
 // src/styles/styles.js
 import { StyleSheet } from 'react-native';
 
+export const colors = {
+  primary: '#007BFF',
+  secondary: '#4CAF50',
+  accent: '#FF6347',
+  background: '#F0F0F0',
+  text: '#333333',
+};
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.background,
     paddingHorizontal: 20,
     paddingTop: 60,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 10,
+    color: colors.text,
+  },
+  description: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: colors.text,
+  },
+  statusText: {
+    fontSize: 16,
+    color: colors.text,
   },
   input: {
     width: '100%',
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: colors.secondary,
     padding: 10,
-    marginBottom: 10,
-    marginTop:5,
+    marginBottom: 20,
+    marginTop: 5,
     borderRadius: 5,
+    color: colors.text,
   },
   button: {
     width: '100%',
-    backgroundColor: 'blue',
+    backgroundColor: colors.primary,
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
@@ -35,6 +54,28 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  navigateButton: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    padding: 10,
+    backgroundColor: colors.secondary,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonShow: {
+    padding: 10,
+    backgroundColor: colors.secondary,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginBottom: 5,
+    marginTop: 5,
+    width: 200,
+  },
+  navigateButtonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
   projectItem: {
     paddingVertical: 15,
     borderBottomWidth: 1,
@@ -44,18 +85,16 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
   addButton: {
-    backgroundColor: 'blue',
+    backgroundColor: colors.primary,
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
     marginTop: 20,
   },
-  // Styles for User screen
   email: {
     fontSize: 16,
     marginBottom: 10,
   },
-  // New styles for Project component
   projectContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -68,17 +107,12 @@ export const styles = StyleSheet.create({
   projectContent: {
     flex: 1,
   },
-  projectTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
   projectDescription: {
     fontSize: 14,
-    color: '#666',
+    color: colors.text,
   },
   deleteButton: {
-    backgroundColor: '#FF6347',
+    backgroundColor: colors.accent,
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -92,7 +126,6 @@ export const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     marginVertical: 5,
   },
-  // Styles for BoardScreen component
   projectInfoContainer: {
     marginBottom: 20,
   },
@@ -102,50 +135,29 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     borderBottomColor: '#ccc',
-},
+  },
   taskItem: {
     marginBottom: 20,
     padding: 10,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: colors.background,
     borderRadius: 5,
   },
   taskTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
+    color: colors.text,
   },
   taskDescription: {
     fontSize: 16,
+    color: colors.text,
   },
   tasksContainer: {
     marginTop: 20,
   },
-  navigateButton: {
-    position: 'absolute',
-    top: 0,
-    left: 20,
-    padding: 10,
-    backgroundColor: '#4CAF50',
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  buttonShow: {
-    padding: 10,
-    backgroundColor: '#4CAF50',
-    borderRadius: 5,
-    alignItems: 'center',
-    marginBottom:5,
-    marginTop:5,
-    width: 200,
-  },
-  navigateButtonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-  },
-  // Styles for StatusListScreen component
   statusContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.background,
     paddingHorizontal: 20,
     paddingTop: 60,
   },
@@ -153,6 +165,7 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: colors.text,
   },
   statusItem: {
     flexDirection: 'row',
@@ -164,34 +177,25 @@ export const styles = StyleSheet.create({
   },
   statusItemText: {
     fontSize: 16,
+    color: colors.text,
   },
   actionButtonsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  deleteButton: {
-    backgroundColor: '#FF6347',
+  editButton: {
+    backgroundColor: colors.primary,
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
     marginRight: 10,
-  },
-  deleteButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  editButton: {
-    backgroundColor: '#007BFF',
-    borderRadius: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
   },
   editButtonText: {
     color: '#fff',
     fontWeight: 'bold',
   },
   createStatusButton: {
-    backgroundColor: 'green',
+    backgroundColor: colors.secondary,
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -202,4 +206,3 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-

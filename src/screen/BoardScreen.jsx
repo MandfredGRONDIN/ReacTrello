@@ -1,3 +1,4 @@
+// src/screens/BoardScreen.js
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Alert, FlatList, Animated, SafeAreaView } from 'react-native';
 import { UserContext } from '../context/userContext';
@@ -107,45 +108,47 @@ const BoardScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => setProject(null)} style={styles.navigateButton}>
         <Text style={styles.navigateButtonText}>Revenir sur vos projets</Text>
       </TouchableOpacity>
-      <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
-      <Text style={styles.projectDescription}>Description: {project.description}</Text>
-      <TouchableOpacity style={styles.buttonShow} onPress={() => setShowInputs(!showInputs)}>
-        <Text style={styles.buttonText}>{showInputs ? 'Masquer la modification' : 'Modification du projet'}</Text>
-      </TouchableOpacity>
-      {showInputs && (
-        <>
-          <TextInput
-            style={styles.input}
-            placeholder="Nouveau titre du projet"
-            value={newTitle}
-            onChangeText={setNewTitle}
+      <View style={{ marginTop: 20 }}>
+        <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
+        <Text style={styles.projectDescription}>Description: {project.description}</Text>
+        <TouchableOpacity style={styles.buttonShow} onPress={() => setShowInputs(!showInputs)}>
+          <Text style={styles.buttonText}>{showInputs ? 'Masquer la modification' : 'Modification du projet'}</Text>
+        </TouchableOpacity>
+        {showInputs && (
+          <>
+            <TextInput
+              style={styles.input}
+              placeholder="Nouveau titre du projet"
+              value={newTitle}
+              onChangeText={setNewTitle}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Nouvelle description du projet"
+              value={newDescription}
+              onChangeText={setNewDescription}
+            />
+            <TouchableOpacity style={styles.button} onPress={handleUpdateProject}>
+              <Text style={styles.buttonText}>Mettre à jour le projet</Text>
+            </TouchableOpacity>
+          </>
+        )}
+        <Text style={styles.taskTitle}>Tâches :</Text>
+        <View style={styles.projectInfoContainer}>
+          <FlatList
+            data={statuses}
+            renderItem={({ item }) => (
+              <View key={item.id}>
+                <Text style={styles.projectTitle}>{item.title}</Text>
+                <FlatList
+                  data={tasks.filter(task => task.statusIndex === item.id)}
+                  renderItem={renderTaskItem}
+                  keyExtractor={(item) => item.id.toString()}
+                />
+              </View>
+            )}
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Nouvelle description du projet"
-            value={newDescription}
-            onChangeText={setNewDescription}
-          />
-          <TouchableOpacity style={styles.button} onPress={handleUpdateProject}>
-            <Text style={styles.buttonText}>Mettre à jour le projet</Text>
-          </TouchableOpacity>
-        </>
-      )}
-      <Text style={styles.taskTitle}>Tâches :</Text>
-      <View style={styles.projectInfoContainer}>
-        <FlatList
-          data={statuses}
-          renderItem={({ item }) => (
-            <View key={item.id}>
-              <Text style={styles.projectTitle}>{item.title}</Text>
-              <FlatList
-                data={tasks.filter(task => task.statusIndex === item.id)}
-                renderItem={renderTaskItem}
-                keyExtractor={(item) => item.id.toString()}
-              />
-            </View>
-          )}
-        />
+        </View>
       </View>
     </SafeAreaView>
   );

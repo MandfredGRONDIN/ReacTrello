@@ -13,8 +13,8 @@ const TaskId = ({ route }) => {
     const [task, setTask] = useState(null);
     const [newTaskTitle, setNewTaskTitle] = useState('');
     const [newTaskDescription, setNewTaskDescription] = useState('');
-    const [newStatusId, setNewStatusId] = useState(null); // Changez le nom de l'état local pour le nouvel ID de statut
-    const [statuses, setStatuses] = useState([]); // Ajoutez l'état local pour stocker les statuts
+    const [newStatusId, setNewStatusId] = useState(null);
+    const [statuses, setStatuses] = useState([]);
     const [showInputs, setShowInputs] = useState(false); 
     const { project } = useContext(UserContext);
     const navigation = useNavigation(); 
@@ -30,7 +30,7 @@ const TaskId = ({ route }) => {
 
     useEffect(() => {
         fetchTaskDetails();
-        fetchStatuses(); // Appelez la fonction pour récupérer les statuts
+        fetchStatuses();
     }, [taskId, project]);
 
     const fetchTaskDetails = async () => {
@@ -61,7 +61,7 @@ const TaskId = ({ route }) => {
             const updatedTaskData = {
                 title: newTaskTitle,
                 description: newTaskDescription,
-                statusIndex: newStatusId // Utiliser le nouvel ID de statut
+                statusIndex: newStatusId
             };
             await updateTask(project.id, taskId, updatedTaskData);
             setTask({ ...task, ...updatedTaskData });
@@ -74,13 +74,12 @@ const TaskId = ({ route }) => {
     };
 
     return (
-        <View>
+        <View style={styles.container}>
             {task ? (
                 <View>
-                    <Text>Titre de la tâche : {task.title}</Text>
-                    <Text>Description de la tâche : {task.description}</Text>
-                    {/* Sélecteur de statut */}
-                    <Text>Statut actuel : {task.statusIndex !== null && statuses.find(status => status.id === task.statusIndex) ? statuses.find(status => status.id === task.statusIndex).title : 'Non défini'}</Text>
+                    <Text style={styles.title}>Titre de la tâche : {task.title}</Text>
+                    <Text style={styles.title}>Description de la tâche : {task.description}</Text>
+                    <Text style={styles.title}>Statut actuel : {task.statusIndex !== null && statuses.find(status => status.id === task.statusIndex) ? statuses.find(status => status.id === task.statusIndex).title : 'Non défini'}</Text>
                     <TouchableOpacity style={styles.button} onPress={() => setShowInputs(!showInputs)}>
                         <Text style={styles.buttonText}>{showInputs ? 'Annuler la modification' : 'Faire une modification'}</Text>
                     </TouchableOpacity>
@@ -99,15 +98,15 @@ const TaskId = ({ route }) => {
                                 onChangeText={setNewTaskDescription}
                             />
                             <Picker
-                            selectedValue={newStatusId}
-                            onValueChange={(itemValue) => setNewStatusId(itemValue)}
-                            style={styles.input}
+                                selectedValue={newStatusId}
+                                onValueChange={(itemValue) => setNewStatusId(itemValue)}
+                                style={styles.input}
                             >
-                            <Picker.Item label="Select status" value={null} />
-                            {statuses.map((status, index) => (
-                            <Picker.Item key={index} label={status.title} value={status.id} />
-                            ))}
-                    </Picker>
+                                <Picker.Item label="Select status" value={null} />
+                                {statuses.map((status, index) => (
+                                    <Picker.Item key={index} label={status.title} value={status.id} />
+                                ))}
+                            </Picker>
                         </>
                     )}
                     {showInputs && (
