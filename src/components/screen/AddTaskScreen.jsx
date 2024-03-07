@@ -50,7 +50,6 @@ const AddTaskScreen = ({ navigation }) => {
         }
     };
 
-    // Vérifie si un statut est sélectionné
     const isStatusSelected = statusIndex !== '';
 
     if (loading) {
@@ -63,7 +62,7 @@ const AddTaskScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Add Task</Text>
+            <Text style={styles.title}>Ajouter une tâche</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Enter task title"
@@ -86,13 +85,12 @@ const AddTaskScreen = ({ navigation }) => {
                     <Picker.Item key={index} label={status.title} value={index} />
                 ))}
             </Picker>
-            {/* Désactive le bouton Add Task si aucun statut n'est sélectionné */}
             <TouchableOpacity 
                 style={[styles.button, !isStatusSelected && { backgroundColor: '#ccc' }]}
                 onPress={isStatusSelected ? handleAddTask : null}
                 disabled={!isStatusSelected}
             >
-                <Text style={styles.buttonText}>Add Task</Text>
+                <Text style={styles.buttonText}>Ajouter</Text>
             </TouchableOpacity>
         </View>
     );

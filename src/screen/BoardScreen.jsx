@@ -1,13 +1,11 @@
-// src/screens/BoardScreen.js
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert, FlatList, Animated, SafeAreaView } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { View, Text, TouchableOpacity, TextInput, Alert, FlatList, Animated, SafeAreaView, Platform } from 'react-native';
 import { UserContext } from '../context/userContext';
 import { styles } from '../styles/styles';
 import { getTasksByProjectId } from '../utils/task/read'; 
 import { getStatus } from '../utils/status/read';
 import { deleteTask } from '../utils/task/delete';
 import { updateProject } from '../utils/project/update'; 
-import TaskList from '../components/TaskList';
 
 const BoardScreen = ({ navigation }) => {
   const { project, setProject } = useContext(UserContext);
@@ -16,6 +14,7 @@ const BoardScreen = ({ navigation }) => {
   const [statuses, setStatuses] = useState([]);
   const [newDescription, setNewDescription] = useState('');
   const [showInputs, setShowInputs] = useState(false);
+  const animatedValues = useRef([]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -32,7 +31,11 @@ const BoardScreen = ({ navigation }) => {
       fetchTasks();
     }
   }, [project]);
-  
+
+  useEffect(() => {
+    animatedValues.current = Array.from({ length: tasks.length }, () => new Animated.Value(500));
+  }, [tasks]);
+
   const fetchTasks = async () => {
     try {
       const tasksData = await getTasksByProjectId(project.id);
@@ -43,6 +46,7 @@ const BoardScreen = ({ navigation }) => {
       console.error('Erreur lors de la récupération des tâches :', error);
     }
   };
+
   const handleDeleteTask = async (taskId) => {
     try {
       await deleteTask(project.id, taskId);
@@ -56,7 +60,7 @@ const BoardScreen = ({ navigation }) => {
   const handleTaskSelection = (taskId) => {
     navigation.navigate('TaskId', { taskId });
   };
-  
+
   const handleUpdateProject = async () => {
     try {
       await updateProject(project.id, {
@@ -71,87 +75,90 @@ const BoardScreen = ({ navigation }) => {
     }
   };
 
-  const tasksWithoutStatus = tasks.filter(task => task.statusIndex === undefined || task.statusIndex === null);
+  useEffect(() => {
+    tasks.forEach((task, index) => {
+      const animatedValue = animatedValues.current[index];
+      const animationDelay = 500 * index; 
 
-  const groupedTasks = statuses.map(status => ({
-    status,
-    tasks: tasks.filter(task => task.statusIndex === status.id)
-  }));
+      const timeoutId = setTimeout(() => {
+        Animated.timing(animatedValue, {
+          toValue: 0, 
+          duration: 500, 
+          useNativeDriver: true 
+        }).start(); 
+      }, animationDelay);
 
-  const renderTaskItem = ({ item }) => {
-    const animatedValue = new Animated.Value(300); // Valeur initiale pour translateY
-    Animated.timing(animatedValue, {
-        toValue: 0, // Valeur finale pour translateY
-        duration: 500, // Durée de l'animation en millisecondes
-        useNativeDriver: true // Utilise le pilote natif pour les performances
-    }).start(); // Démarre l'animation
+      return () => clearTimeout(timeoutId); 
+    });
+  }, [tasks]);
+
+  const renderTaskItem = ({ item, index }) => {
+    const animatedValue = animatedValues.current[index];
 
     return (
-        <Animated.View style={{ transform: [{ translateY: animatedValue }] }}>
-            <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
-                <View style={styles.taskItemContainer}>
-                    <View>
-                        <Text style={styles.taskTitle}>{item.title}</Text>
-                        <Text style={styles.taskDescription}>{item.description}</Text>
-                    </View>
-                    <TouchableOpacity onPress={() => handleDeleteTask(item.id)} style={styles.deleteButton}>
-                        <Text style={styles.deleteButtonText}>Supprimer</Text>
-                    </TouchableOpacity>
-                </View>
+      <Animated.View style={{ transform: [{ translateX: animatedValue }] }}>
+        <TouchableOpacity style={styles.taskItem} onPress={() => handleTaskSelection(item.id)}>
+          <View style={styles.taskItemContainer}>
+            <View>
+              <Text style={styles.taskTitle}>{item.title}</Text>
+              <Text style={styles.taskDescription}>{item.description}</Text>
+            </View>
+            <TouchableOpacity onPress={() => handleDeleteTask(item.id)} style={styles.deleteButton}>
+              <Text style={styles.deleteButtonText}>Supprimer</Text>
             </TouchableOpacity>
-        </Animated.View>
+          </View>
+        </TouchableOpacity>
+      </Animated.View>
     );
   };
-  
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { marginTop: Platform.OS === 'ios' ? 44 : 0 }]}>
       <TouchableOpacity onPress={() => setProject(null)} style={styles.navigateButton}>
         <Text style={styles.navigateButtonText}>Revenir sur vos projets</Text>
       </TouchableOpacity>
-      <View style={{ marginTop: 20 }}>
-        <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
-        <Text style={styles.projectDescription}>Description: {project.description}</Text>
-        <TouchableOpacity style={styles.buttonShow} onPress={() => setShowInputs(!showInputs)}>
-          <Text style={styles.buttonText}>{showInputs ? 'Masquer la modification' : 'Modification du projet'}</Text>
-        </TouchableOpacity>
-        {showInputs && (
-          <>
-            <TextInput
-              style={styles.input}
-              placeholder="Nouveau titre du projet"
-              value={newTitle}
-              onChangeText={setNewTitle}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Nouvelle description du projet"
-              value={newDescription}
-              onChangeText={setNewDescription}
-            />
-            <TouchableOpacity style={styles.button} onPress={handleUpdateProject}>
-              <Text style={styles.buttonText}>Mettre à jour le projet</Text>
-            </TouchableOpacity>
-          </>
-        )}
-        <Text style={styles.taskTitle}>Tâches :</Text>
-        <View style={styles.projectInfoContainer}>
-          <FlatList
-            data={statuses}
-            renderItem={({ item }) => (
-              <View key={item.id}>
-                <Text style={styles.projectTitle}>{item.title}</Text>
-                <FlatList
-                  data={tasks.filter(task => task.statusIndex === item.id)}
-                  renderItem={renderTaskItem}
-                  keyExtractor={(item) => item.id.toString()}
-                />
-              </View>
-            )}
+      <Text style={styles.projectTitle}>Titre du projet: {project.title}</Text>
+      <Text style={styles.projectDescription}>Description: {project.description}</Text>
+      <TouchableOpacity style={styles.buttonShow} onPress={() => setShowInputs(!showInputs)}>
+        <Text style={styles.buttonText}>{showInputs ? 'Masquer la modification' : 'Modification du projet'}</Text>
+      </TouchableOpacity>
+      {showInputs && (
+        <>
+          <TextInput
+            style={styles.input}
+            placeholder="Nouveau titre du projet"
+            value={newTitle}
+            onChangeText={setNewTitle}
           />
-        </View>
-      </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Nouvelle description du projet"
+            value={newDescription}
+            onChangeText={setNewDescription}
+          />
+          <TouchableOpacity style={styles.button} onPress={handleUpdateProject}>
+            <Text style={styles.buttonText}>Mettre à jour le projet</Text>
+          </TouchableOpacity>
+        </>
+      )}
+      <Text style={styles.taskTitle}>Tâches :</Text>
+      <FlatList
+        data={statuses}
+        renderItem={({ item }) => (
+          <View key={item.id}>
+            <Text style={styles.projectTitle}>{item.title}</Text>
+            <FlatList
+              data={tasks.filter(task => task.statusIndex === item.id)}
+              renderItem={renderTaskItem}
+              keyExtractor={(item) => item.id.toString()}
+            />
+          </View>
+        )}
+      />
     </SafeAreaView>
   );
 };
 
 export default BoardScreen;
+
+

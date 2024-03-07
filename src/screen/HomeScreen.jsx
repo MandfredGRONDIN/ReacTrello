@@ -1,6 +1,6 @@
 // src/screen/HomeScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, SafeAreaView, Platform } from 'react-native';
 import { styles } from '../styles/styles';
 import { UserContext } from '../context/userContext';
 import { getProjects } from '../utils/project/read.js';
@@ -48,16 +48,18 @@ const HomeScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { marginTop: Platform.OS === 'ios' ? 44 : 0 }]}>
+      <Text style={styles.title}>Vos projets</Text>
       {projects.length > 0 ? (
         <FlatList
           data={projects}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <ProjectItem
               project={item}
               onDeleteProject={handleDeleteProject}
               onSelectProject={handleProjectSelection}
+              index={index}
             />
           )}
         />

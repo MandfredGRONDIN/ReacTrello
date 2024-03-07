@@ -9,7 +9,11 @@ const Stack = createStackNavigator();
 const TaskIdTabs = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Vos tâches' component={BoardScreen} />
+            <Stack.Screen name='Vos tâches' component={BoardScreen}
+            options={{
+                headerStyle: { backgroundColor: '#F0F0F0' },
+            }}
+             />
             <Stack.Screen name='TaskId' component={TaskId} />
             <Stack.Screen name='EditStatusScreen' component={EditStatusScreen} />
         </Stack.Navigator>

@@ -40,6 +40,7 @@ export const styles = StyleSheet.create({
     marginTop: 5,
     borderRadius: 5,
     color: colors.text,
+    backgroundColor:"#fff",
   },
   button: {
     width: '100%',
@@ -134,7 +135,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
+    backgroundColor:"#fff",
     borderBottomColor: '#ccc',
+    borderRadius:5,
   },
   taskItem: {
     marginBottom: 20,

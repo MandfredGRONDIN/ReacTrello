@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; 
 import { getTaskById } from '../utils/task/read';
 import { UserContext } from '../context/userContext';
@@ -74,9 +74,9 @@ const TaskId = ({ route }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.taskContainer}>
             {task ? (
-                <View>
+                <SafeAreaView>
                     <Text style={styles.title}>Titre de la tâche : {task.title}</Text>
                     <Text style={styles.title}>Description de la tâche : {task.description}</Text>
                     <Text style={styles.title}>Statut actuel : {task.statusIndex !== null && statuses.find(status => status.id === task.statusIndex) ? statuses.find(status => status.id === task.statusIndex).title : 'Non défini'}</Text>
@@ -114,11 +114,11 @@ const TaskId = ({ route }) => {
                             <Text style={styles.buttonText}>Mettre à jour</Text>
                         </TouchableOpacity>
                     )}
-                </View>
+                </SafeAreaView>
             ) : (
                 <Text>Chargement des informations de la tâche...</Text>
             )}
-        </View>
+        </SafeAreaView>
     );
 };
 
