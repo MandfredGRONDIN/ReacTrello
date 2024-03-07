@@ -8,7 +8,7 @@ export async function createProject(title, description, userId) {
             title: title,
             description: description,
             createdBy: userId,
-            members: [userId]
+            members: []
         });
         console.log("New project added with ID: ", newProjectRef.id);
         
