@@ -15,25 +15,34 @@ const AddTaskScreen = ({ navigation }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchStatuses = async () => {
-            try {
-                const statusesData = await getStatus(project.id);
-                setStatuses(statusesData);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching statuses:', error);
-                setLoading(false);
-                Alert.alert('Error', 'Failed to fetch statuses.');
-            }
-        };
+        const unsubscribe = navigation.addListener('focus', () => {
+            fetchStatuses();
+        });
+    
+        return unsubscribe;
+      }, [navigation]);
 
+    useEffect(() => {
         fetchStatuses();
     }, []);
-
+    
+    const fetchStatuses = async () => {
+        try {
+            const statusesData = await getStatus(project.id);
+            setStatuses(statusesData);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching statuses:', error);
+            setLoading(false);
+            Alert.alert('Error', 'Failed to fetch statuses.');
+        }
+    };
     const handleAddTask = async () => {
         try {
             const statusId = statusIndex === '' ? null : statuses[statusIndex].id;
             await createTask(project.id, title, description, statusId);
+            setTitle('');
+            setDescription('');
             navigation.goBack();
         } catch (error) {
             console.error('Error adding task:', error);
