@@ -13,7 +13,7 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     try {
-      const { user, emailVerified: isEmailVerified } = await logUser(login, pass);
+      const { user, emailVerified: isEmailVerified } = await logUser(login.toLowerCase(), pass);
       console.log(isEmailVerified);
       
       if (!isEmailVerified) {

@@ -13,7 +13,7 @@ const RegisterScreen = () => {
   const handleRegister = async () => {
     if (pass === confirm) {
       try {
-        await createUser(login, pass);
+        await createUser(login.toLowerCase(), pass);
         Alert.alert("Un lien de vérification a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception pour continuer.", "", [
           { text: "OK", onPress: () => navigation.navigate('login') } 
         ]);
