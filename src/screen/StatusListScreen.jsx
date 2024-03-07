@@ -1,6 +1,6 @@
 // src/screen/StatusListScreen.jsx
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, FlatList } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, FlatList, SafeAreaView } from 'react-native';
 import { styles } from '../styles/styles';
 import { createStatus } from '../utils/status/create';
 import { getStatus } from '../utils/status/read';
@@ -82,7 +82,7 @@ const AddStatusListScreen = ({ navigation }) => {
   
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Ajouter un status</Text>
       <TextInput
         style={styles.input}
@@ -106,7 +106,7 @@ const AddStatusListScreen = ({ navigation }) => {
           </View>
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

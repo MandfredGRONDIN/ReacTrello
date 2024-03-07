@@ -1,6 +1,6 @@
 // src/screen/HomeScreen.jsx
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, SafeAreaView } from 'react-native';
 import { styles } from '../styles/styles';
 import { UserContext } from '../context/userContext';
 import { getProjects } from '../utils/project/read.js';
@@ -48,7 +48,7 @@ const HomeScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {projects.length > 0 ? (
         <FlatList
           data={projects}
@@ -64,7 +64,7 @@ const HomeScreen = ({ navigation, route }) => {
       ) : (
         <Text>Aucun projet trouvé.</Text>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
