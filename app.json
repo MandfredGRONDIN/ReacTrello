@@ -5,7 +5,23 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "android": {
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "ios": {
+      "infoPlist": {
+        "NSCameraUsageDescription": "Cette application a besoin d'accéder à vos photos et vidéos pour sélectionner des fichiers.",
+        "NSPhotoLibraryUsageDescription": "Cette application a besoin d'accéder à vos photos et vidéos pour sélectionner des fichiers."
+      }
+    }
   },
   "name": "ReacTrello"
 }

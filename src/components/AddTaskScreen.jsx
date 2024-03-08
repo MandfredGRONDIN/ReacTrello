@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
+import * as DocumentPicker from 'expo-document-picker';
 import { styles } from '../styles/styles'
 import { UserContext } from '../context/userContext'
 import { createTask } from '../utils/task/create'
@@ -13,6 +14,7 @@ const AddTaskScreen = ({ navigation }) => {
     const [statusIndex, setStatusIndex] = useState('')
     const [statuses, setStatuses] = useState([])
     const [loading, setLoading] = useState(true)
+    const [selectedFile, setSelectedFile] = useState(null)
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -40,17 +42,43 @@ const AddTaskScreen = ({ navigation }) => {
 
     const handleAddTask = async () => {
         try {
-            const statusId =
-                statusIndex === '' ? null : statuses[statusIndex].id
-            console.log(project.id, title, description, statusId)
-            await createTask(project.id, title, description, statusId)
+            const statusId = statusIndex === '' ? null : statuses[statusIndex].id
+            console.log(selectedFile)
+            await createTask(project.id, title, description, statusId, selectedFile)
             setTitle('')
             setDescription('')
+            setSelectedFile(null)
+            Alert.alert("Ajout de la tâche")
         } catch (error) {
             console.error("Erreur lors de l'ajout de la tâche :", error)
             Alert.alert('Erreur', "Échec de l'ajout de la tâche.")
         }
     }
+
+    const handleFileSelection = async () => {
+        try {
+            console.log("Sélection du fichier en cours...");
+            const file = await DocumentPicker.getDocumentAsync();
+            console.log("Fichier sélectionné :", file);
+
+            if (!file.canceled) {
+                const selectedFile = file.assets[0];
+                console.log("Fichier sélectionné :", selectedFile);
+
+                if (selectedFile.size < 4000000) {
+                    setSelectedFile(selectedFile);
+                } else {
+                    Alert.alert('Erreur', 'Fichier trop volumineux.');
+                }
+            } else {
+                console.log("L'utilisateur a annulé la sélection de fichier.");
+            }
+        } catch (error) {
+            console.error('Erreur lors de la sélection du fichier :', error);
+        }
+    }
+
+
 
     const isStatusSelected = statusIndex !== ''
 
@@ -100,6 +128,13 @@ const AddTaskScreen = ({ navigation }) => {
                 disabled={!isStatusSelected}
             >
                 <Text style={styles.buttonText}>Ajouter</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.button}
+                onPress={handleFileSelection}
+            >
+                <Text style={styles.buttonText}>Sélectionner un fichier</Text>
             </TouchableOpacity>
         </View>
     )
