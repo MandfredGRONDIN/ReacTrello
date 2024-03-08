@@ -39,21 +39,8 @@ const BoardScreen = ({ navigation }) => {
             setNewTitle(project.title)
             setNewDescription(project.description)
             fetchTasks()
-            animatedValues.current = Array.from(
-                { length: tasks.length },
-                () => new Animated.Value(500),
-            )
         }
     }, [project])
-
-    useEffect(() => {
-        if (tasks.length > 0) {
-            animatedValues.current = Array.from(
-                { length: tasks.length },
-                () => new Animated.Value(500),
-            )
-        }
-    }, [tasks])
 
     const fetchTasks = async () => {
         try {
@@ -102,6 +89,13 @@ const BoardScreen = ({ navigation }) => {
     }
 
     useEffect(() => {
+        if (!tasks) return;
+        if (tasks.length > 0) {
+            animatedValues.current = Array.from(
+                { length: tasks.length },
+                () => new Animated.Value(500),
+            )
+        }
         tasks.forEach((task, index) => {
             const animatedValue = animatedValues.current[index]
             const animationDelay = 500 * index
