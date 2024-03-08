@@ -1,87 +1,117 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
-import { getTaskById } from '../utils/task/read';
-import { UserContext } from '../context/userContext';
-import { updateTask } from '../utils/task/update';
-import { getStatus } from '../utils/status/read';
-import { Picker } from '@react-native-picker/picker';
-import { styles } from '../styles/styles';
+import React, { useContext, useEffect, useState } from 'react'
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    SafeAreaView,
+} from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { getTaskById } from '../utils/task/read'
+import { UserContext } from '../context/userContext'
+import { updateTask } from '../utils/task/update'
+import { getStatus } from '../utils/status/read'
+import { Picker } from '@react-native-picker/picker'
+import { styles } from '../styles/styles'
 
 const TaskId = ({ route }) => {
-    const { taskId } = route.params;
-    const [task, setTask] = useState(null);
-    const [newTaskTitle, setNewTaskTitle] = useState('');
-    const [newTaskDescription, setNewTaskDescription] = useState('');
-    const [newStatusId, setNewStatusId] = useState(null);
-    const [statuses, setStatuses] = useState([]);
-    const [showInputs, setShowInputs] = useState(false); 
-    const { project } = useContext(UserContext);
-    const navigation = useNavigation(); 
+    const { taskId } = route.params
+    const [task, setTask] = useState(null)
+    const [newTaskTitle, setNewTaskTitle] = useState('')
+    const [newTaskDescription, setNewTaskDescription] = useState('')
+    const [newStatusId, setNewStatusId] = useState(null)
+    const [statuses, setStatuses] = useState([])
+    const [showInputs, setShowInputs] = useState(false)
+    const { project } = useContext(UserContext)
+    const navigation = useNavigation()
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            fetchTaskDetails();
-            fetchStatuses();
-        });
+            fetchTaskDetails()
+            fetchStatuses()
+        })
 
-        return unsubscribe;
-    }, [navigation]);
+        return unsubscribe
+    }, [navigation])
 
     useEffect(() => {
-        fetchTaskDetails();
-        fetchStatuses();
-    }, [taskId, project]);
+        fetchTaskDetails()
+        fetchStatuses()
+    }, [taskId, project])
 
     const fetchTaskDetails = async () => {
         if (taskId && project) {
             try {
-                const taskData = await getTaskById(project.id, taskId);
-                setTask(taskData);
-                setNewTaskTitle(taskData.title);
-                setNewTaskDescription(taskData.description);
-                setNewStatusId(taskData.statusIndex); 
+                const taskData = await getTaskById(project.id, taskId)
+                setTask(taskData)
+                setNewTaskTitle(taskData.title)
+                setNewTaskDescription(taskData.description)
+                setNewStatusId(taskData.statusIndex)
             } catch (error) {
-                console.error('Erreur lors de la récupération des informations de la tâche :', error);
+                console.error(
+                    'Erreur lors de la récupération des informations de la tâche :',
+                    error,
+                )
             }
         }
-    };
+    }
 
     const fetchStatuses = async () => {
         try {
-            const statusesData = await getStatus(project.id);
-            setStatuses(statusesData);
+            const statusesData = await getStatus(project.id)
+            setStatuses(statusesData)
         } catch (error) {
-            console.error('Erreur lors de la récupération des statuts :', error);
+            console.error('Erreur lors de la récupération des statuts :', error)
         }
-    };
+    }
 
     const handleUpdateTask = async () => {
         try {
             const updatedTaskData = {
                 title: newTaskTitle,
                 description: newTaskDescription,
-                statusIndex: newStatusId
-            };
-            await updateTask(project.id, taskId, updatedTaskData);
-            setTask({ ...task, ...updatedTaskData });
-            setNewTaskTitle('');
-            setNewTaskDescription('');
-            setShowInputs(false);
+                statusIndex: newStatusId,
+            }
+            await updateTask(project.id, taskId, updatedTaskData)
+            setTask({ ...task, ...updatedTaskData })
+            setNewTaskTitle('')
+            setNewTaskDescription('')
+            setShowInputs(false)
         } catch (error) {
-            console.error('Erreur lors de la mise à jour de la tâche :', error);
+            console.error('Erreur lors de la mise à jour de la tâche :', error)
         }
-    };
+    }
 
     return (
-        <SafeAreaView style={styles.taskContainer}>
+        <SafeAreaView style={styles.taskContain}>
             {task ? (
                 <SafeAreaView>
-                    <Text style={styles.title}>Titre de la tâche : {task.title}</Text>
-                    <Text style={styles.title}>Description de la tâche : {task.description}</Text>
-                    <Text style={styles.title}>Statut actuel : {task.statusIndex !== null && statuses.find(status => status.id === task.statusIndex) ? statuses.find(status => status.id === task.statusIndex).title : 'Non défini'}</Text>
-                    <TouchableOpacity style={styles.button} onPress={() => setShowInputs(!showInputs)}>
-                        <Text style={styles.buttonText}>{showInputs ? 'Annuler la modification' : 'Faire une modification'}</Text>
+                    <Text style={styles.title}>
+                        Titre de la tâche : {task.title}
+                    </Text>
+                    <Text style={styles.title}>
+                        Description de la tâche : {task.description}
+                    </Text>
+                    <Text style={styles.title}>
+                        Statut actuel :{' '}
+                        {task.statusIndex !== null &&
+                        statuses.find(
+                            (status) => status.id === task.statusIndex,
+                        )
+                            ? statuses.find(
+                                  (status) => status.id === task.statusIndex,
+                              ).title
+                            : 'Non défini'}
+                    </Text>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => setShowInputs(!showInputs)}
+                    >
+                        <Text style={styles.buttonText}>
+                            {showInputs
+                                ? 'Annuler la modification'
+                                : 'Faire une modification'}
+                        </Text>
                     </TouchableOpacity>
                     {showInputs && (
                         <>
@@ -99,18 +129,30 @@ const TaskId = ({ route }) => {
                             />
                             <Picker
                                 selectedValue={newStatusId}
-                                onValueChange={(itemValue) => setNewStatusId(itemValue)}
+                                onValueChange={(itemValue) =>
+                                    setNewStatusId(itemValue)
+                                }
                                 style={styles.input}
                             >
-                                <Picker.Item label="Select status" value={null} />
+                                <Picker.Item
+                                    label="Selectionner un status"
+                                    value={null}
+                                />
                                 {statuses.map((status, index) => (
-                                    <Picker.Item key={index} label={status.title} value={status.id} />
+                                    <Picker.Item
+                                        key={index}
+                                        label={status.title}
+                                        value={status.id}
+                                    />
                                 ))}
                             </Picker>
                         </>
                     )}
                     {showInputs && (
-                        <TouchableOpacity style={styles.button} onPress={handleUpdateTask}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleUpdateTask}
+                        >
                             <Text style={styles.buttonText}>Mettre à jour</Text>
                         </TouchableOpacity>
                     )}
@@ -119,7 +161,7 @@ const TaskId = ({ route }) => {
                 <Text>Chargement des informations de la tâche...</Text>
             )}
         </SafeAreaView>
-    );
-};
+    )
+}
 
-export default TaskId;
+export default TaskId
