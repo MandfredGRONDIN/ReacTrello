@@ -14,8 +14,8 @@ export async function getStatus(projectId) {
         })
         return statuses
     } catch (error) {
-        console.error('Erreur lors de la récupération des statuts : ', error)
-        throw new Error('Impossible de récupérer les statuts.')
+        console.error('Error getting statuses: ', error)
+        throw new Error('Unable to get statuses.')
     }
 }
 
@@ -31,10 +31,10 @@ export async function getStatusById(projectId, statusId) {
         if (statusDoc.exists()) {
             return { id: statusDoc.id, ...statusDoc.data() }
         } else {
-            throw new Error('Statut introuvable.')
+            throw new Error('Status not found.')
         }
     } catch (error) {
-        console.error('Erreur lors de la récupération du statut :', error)
-        throw new Error('Impossible de récupérer le statut.')
+        console.error('Error getting status:', error)
+        throw new Error('Unable to get status.')
     }
 }
