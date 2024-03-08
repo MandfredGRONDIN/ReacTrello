@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { UserContext } from '../context/userContext';
-import { styles } from '../styles/styles';
+import React, { useContext } from 'react'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { UserContext } from '../context/userContext'
+import { styles } from '../styles/styles'
 
 const User = () => {
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext)
 
     const handleLogout = () => {
-        setUser(undefined);
-    };
+        setUser(undefined)
+    }
 
     return (
         <View style={styles.container}>
@@ -18,7 +18,7 @@ const User = () => {
                 <Text style={styles.buttonText}>Déconnecter</Text>
             </TouchableOpacity>
         </View>
-    );
+    )
 }
 
-export default User;
+export default User

@@ -1,33 +1,40 @@
-import { collection, doc, getDocs, getDoc } from "firebase/firestore";
-import { firestore } from "../firebase/app";
+import { collection, doc, getDocs, getDoc } from 'firebase/firestore'
+import { firestore } from '../firebase/app'
 
 export async function getStatus(projectId) {
     try {
-        const statusCollection = collection(firestore, `projects/${projectId}/status`);
-        const querySnapshot = await getDocs(statusCollection);
-        const statuses = [];
-        querySnapshot.forEach(doc => {
-            statuses.push({ id: doc.id, ...doc.data() });
-        });
-        return statuses;
+        const statusCollection = collection(
+            firestore,
+            `projects/${projectId}/status`,
+        )
+        const querySnapshot = await getDocs(statusCollection)
+        const statuses = []
+        querySnapshot.forEach((doc) => {
+            statuses.push({ id: doc.id, ...doc.data() })
+        })
+        return statuses
     } catch (error) {
-        console.error("Error getting statuses: ", error);
-        throw new Error("Unable to get statuses.");
+        console.error('Erreur lors de la récupération des statuts : ', error)
+        throw new Error('Impossible de récupérer les statuts.')
     }
 }
 
 export async function getStatusById(projectId, statusId) {
     try {
-        const statusRef = doc(firestore, `projects/${projectId}/status`, statusId);
-        const statusDoc = await getDoc(statusRef);
+        const statusRef = doc(
+            firestore,
+            `projects/${projectId}/status`,
+            statusId,
+        )
+        const statusDoc = await getDoc(statusRef)
 
         if (statusDoc.exists()) {
-            return { id: statusDoc.id, ...statusDoc.data() };
+            return { id: statusDoc.id, ...statusDoc.data() }
         } else {
-            throw new Error("Status not found.");
+            throw new Error('Statut introuvable.')
         }
     } catch (error) {
-        console.error("Error getting status:", error);
-        throw new Error("Unable to get status.");
+        console.error('Erreur lors de la récupération du statut :', error)
+        throw new Error('Impossible de récupérer le statut.')
     }
 }

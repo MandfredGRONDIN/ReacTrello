@@ -1,13 +1,17 @@
-import { doc, deleteDoc } from "firebase/firestore";
-import { firestore } from "../firebase/app";
+import { doc, deleteDoc } from 'firebase/firestore'
+import { firestore } from '../firebase/app'
 
 export async function deleteStatus(projectId, statusId) {
     try {
-        const statusRef = doc(firestore, `projects/${projectId}/status`, statusId);
-        await deleteDoc(statusRef);
-        console.log("Status deleted:", statusId);
+        const statusRef = doc(
+            firestore,
+            `projects/${projectId}/status`,
+            statusId,
+        )
+        await deleteDoc(statusRef)
+        console.log('Statut supprimé :', statusId)
     } catch (error) {
-        console.error("Error deleting status:", error);
-        throw new Error("Unable to delete status.");
+        console.error('Erreur lors de la suppression du statut :', error)
+        throw new Error('Impossible de supprimer le statut.')
     }
 }
