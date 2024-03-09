@@ -1,23 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, Text, TextInput, TouchableOpacity, Linking } from 'react-native';
+import { SafeAreaView, Text, TouchableOpacity, Linking, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getTaskById } from '../utils/task/read';
 import { UserContext } from '../context/userContext';
-import { updateTask } from '../utils/task/update';
 import { getStatus } from '../utils/status/read';
-import { Picker } from '@react-native-picker/picker';
 import { styles } from '../styles/styles';
-import { downloadFileToDevice } from '../utils/file/read';
+import { downloadFileToDevice, downloadUrl } from '../utils/file/read';
 
 const TaskId = ({ route }) => {
     const { taskId } = route.params;
     const [task, setTask] = useState(null);
-    const [newTaskTitle, setNewTaskTitle] = useState('');
-    const [newTaskDescription, setNewTaskDescription] = useState('');
-    const [newStatusId, setNewStatusId] = useState(null);
     const [statuses, setStatuses] = useState([]);
-    const [showInputs, setShowInputs] = useState(false);
     const { project } = useContext(UserContext);
+    const [url, setUrl] = useState()
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -39,9 +34,10 @@ const TaskId = ({ route }) => {
             try {
                 const taskData = await getTaskById(project.id, taskId);
                 setTask(taskData);
-                setNewTaskTitle(taskData.title);
-                setNewTaskDescription(taskData.description);
-                setNewStatusId(taskData.statusIndex);
+                if (taskData.filePath) {
+                    const urlPath = await downloadUrl(taskData.filePath)
+                    setUrl(urlPath)
+                }
             } catch (error) {
                 console.error('Erreur lors de la récupération des informations de la tâche :', error);
             }
@@ -57,34 +53,17 @@ const TaskId = ({ route }) => {
         }
     };
 
-    const handleUpdateTask = async () => {
-        try {
-            const updatedTaskData = {
-                title: newTaskTitle,
-                description: newTaskDescription,
-                statusIndex: newStatusId,
-            };
-            await updateTask(project.id, taskId, updatedTaskData);
-            setTask({ ...task, ...updatedTaskData });
-            setNewTaskTitle('');
-            setNewTaskDescription('');
-            setShowInputs(false);
-        } catch (error) {
-            console.error('Erreur lors de la mise à jour de la tâche :', error);
-        }
+    const handleNavigationToUpdateTask = () => {
+        navigation.navigate('TaskUpdate', { taskId });
     };
 
     const handleDownloadFile = async () => {
         try {
-            console.log("ici");
             await downloadFileToDevice(task);
-            console.log("la");
         } catch (error) {
             console.error("Erreur lors du téléchargement du fichier :", error);
-            // Gérez les erreurs de téléchargement ici
         }
     };
-
 
     return (
         <SafeAreaView style={styles.taskContain}>
@@ -97,45 +76,19 @@ const TaskId = ({ route }) => {
                         ? statuses.find(status => status.id === task.statusIndex).title
                         : 'Non défini'}
                     </Text>
-                    <TouchableOpacity style={styles.button} onPress={() => setShowInputs(!showInputs)}>
-                        <Text style={styles.buttonText}>{showInputs ? 'Annuler la modification' : 'Faire une modification'}</Text>
-                    </TouchableOpacity>
-                    {showInputs && (
-                        <>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Nouveau titre de la tâche"
-                                value={newTaskTitle}
-                                onChangeText={setNewTaskTitle}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Nouvelle description de la tâche"
-                                value={newTaskDescription}
-                                onChangeText={setNewTaskDescription}
-                            />
-                            <Picker
-                                selectedValue={newStatusId}
-                                onValueChange={(itemValue) => setNewStatusId(itemValue)}
-                                style={styles.input}
-                            >
-                                <Picker.Item label="Selectionner un status" value={null} />
-                                {statuses.map((status, index) => (
-                                    <Picker.Item key={index} label={status.title} value={status.id} />
-                                ))}
-                            </Picker>
-                        </>
-                    )}
-                    {showInputs && (
-                        <TouchableOpacity style={styles.button} onPress={handleUpdateTask}>
-                            <Text style={styles.buttonText}>Mettre à jour</Text>
+                    {url && (
+                        <TouchableOpacity onPress={() => Linking.openURL(url)}>
+                            <Image source={{ uri: url }} style={{ width: 200, height: 200 }} />
                         </TouchableOpacity>
                     )}
                     {task.filePath && (
                         <TouchableOpacity style={styles.button} onPress={handleDownloadFile}>
-                            <Text style={styles.buttonText}>Télécharger le fichier</Text>
+                            <Text style={styles.buttonText}>Télécharger et partager le fichier</Text>
                         </TouchableOpacity>
                     )}
+                    <TouchableOpacity style={styles.button} onPress={handleNavigationToUpdateTask}>
+                        <Text style={styles.buttonText}>Modifier la tâche</Text>
+                    </TouchableOpacity>
                 </SafeAreaView>
             ) : (
                 <Text>Chargement des informations de la tâche...</Text>

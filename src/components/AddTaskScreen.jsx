@@ -65,10 +65,14 @@ const AddTaskScreen = ({ navigation }) => {
                 const selectedFile = file.assets[0];
                 console.log("Fichier sélectionné :", selectedFile);
 
-                if (selectedFile.size < 4000000) {
-                    setSelectedFile(selectedFile);
+                if (selectedFile && /\.(jpg|jpeg|png|gif)$/i.test(selectedFile.name)) {
+                    if (selectedFile.size < 250 * 1024 * 1024) {
+                        setSelectedFile(selectedFile);
+                    } else {
+                        Alert.alert('Erreur', 'Fichier trop volumineux (max 250mo).');
+                    }
                 } else {
-                    Alert.alert('Erreur', 'Fichier trop volumineux.');
+                    Alert.alert('Erreur', 'Seules les images au format jpg/jpeg/png/gif sont autorisées.');
                 }
             } else {
                 console.log("L'utilisateur a annulé la sélection de fichier.");
@@ -76,7 +80,7 @@ const AddTaskScreen = ({ navigation }) => {
         } catch (error) {
             console.error('Erreur lors de la sélection du fichier :', error);
         }
-    }
+    };
 
 
 

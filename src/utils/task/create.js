@@ -19,18 +19,14 @@ export async function createTask(
             description: description,
             completed: false,
             statusIndex: statusIndex,
+            filePath: null,
         })
-        console.log(
-            "Nouvelle tâche ajoutée avec l'identifiant : ",
-            newTaskRef.id,
-        )
-        console.log(file)
+
         if (file != null && file.uri && file.name) {
             const storage = getStorage()
 
             const fileRefPath = `projects/${projectId}/tasks/${newTaskRef.id}/${file.name}`
             const fileRef = ref(storage, fileRefPath)
-            console.log('fileRef', fileRef)
 
             const response = await fetch(file.uri)
             const fileData = await response.blob()
