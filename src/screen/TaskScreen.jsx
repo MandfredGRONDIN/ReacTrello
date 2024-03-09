@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, Text, TouchableOpacity, Linking, Image } from 'react-native';
+import { SafeAreaView, Text, TouchableOpacity, Linking, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getTaskById } from '../utils/task/read';
 import { UserContext } from '../context/userContext';
 import { getStatus } from '../utils/status/read';
 import { styles } from '../styles/styles';
 import { downloadFileToDevice, downloadUrl } from '../utils/file/read';
+import { deleteFile } from '../utils/file/delete';
 
 const TaskId = ({ route }) => {
     const { taskId } = route.params;
     const [task, setTask] = useState(null);
     const [statuses, setStatuses] = useState([]);
     const { project } = useContext(UserContext);
-    const [url, setUrl] = useState()
+    const [url, setUrl] = useState();
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -35,8 +36,8 @@ const TaskId = ({ route }) => {
                 const taskData = await getTaskById(project.id, taskId);
                 setTask(taskData);
                 if (taskData.filePath) {
-                    const urlPath = await downloadUrl(taskData.filePath)
-                    setUrl(urlPath)
+                    const urlPath = await downloadUrl(taskData.filePath);
+                    setUrl(urlPath);
                 }
             } catch (error) {
                 console.error('Erreur lors de la récupération des informations de la tâche :', error);
@@ -65,6 +66,31 @@ const TaskId = ({ route }) => {
         }
     };
 
+    const handleDeleteImage = () => {
+        Alert.alert(
+            'Confirmation',
+            'Voulez-vous vraiment supprimer cette image ?',
+            [
+                { text: 'Annuler', style: 'cancel' },
+                { text: 'Supprimer', onPress: deleteImage }
+            ]
+        );
+    };
+
+    const deleteImage = async () => {
+        try {
+            await deleteFile(task.filePath, project.id, task.id);
+            console.log('L\'image a été supprimée.');
+            setUrl(null);
+        } catch (error) {
+            console.error("Erreur lors de la suppression de l'image :", error);
+            Alert.alert(
+                'Erreur',
+                'Une erreur est survenue lors de la suppression de l\'image.'
+            );
+        }
+    };
+
     return (
         <SafeAreaView style={styles.taskContain}>
             {task ? (
@@ -76,7 +102,7 @@ const TaskId = ({ route }) => {
                         ? statuses.find(status => status.id === task.statusIndex).title
                         : 'Non défini'}
                     </Text>
-                    {task.filePath && (
+                    {task.filePath && url && (
                         <TouchableOpacity style={styles.fileDeleteButton} onPress={handleDownloadFile}>
                             <Text style={styles.fileDeleteButtonText}>Télécharger et partager le fichier</Text>
                         </TouchableOpacity>
@@ -85,7 +111,7 @@ const TaskId = ({ route }) => {
                         <Text style={styles.buttonText}>Modifier la tâche</Text>
                     </TouchableOpacity>
                     {url && (
-                        <TouchableOpacity onPress={() => Linking.openURL(url)}>
+                        <TouchableOpacity onPress={() => Linking.openURL(url)} onLongPress={handleDeleteImage}>
                             <Image source={{ uri: url }} style={styles.image} />
                         </TouchableOpacity>
                     )}

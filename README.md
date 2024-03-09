@@ -48,3 +48,5 @@ En plus des fonctionnalités de base, cette application propose des fonctionnali
 **Animation d'Apparition des Projets et des Tâches :** L'application utilise des animations pour rendre l'apparition des projets et des tâches plus fluide et attrayante. Les éléments apparaissent de manière progressive pour une expérience visuelle agréable.
 
 **Gestion des images :** Les utilisateurs peuvent ajouter des images à chaque tâche pour illustrer visuellement leur contenu. L'application permet aux utilisateurs de sélectionner une image à partir de leur galerie de photos. Lors du clic sur une image, celle-ci s'ouvrira dans un lien web en plus grand. Il y a aussi la possibilité de télécharger et partager en même temps l'image.
+
+**Suppression d'une image :** Lors d'un clic prolonger sur une image d'une tâche, il vous seras proposer de supprimer l'image.
