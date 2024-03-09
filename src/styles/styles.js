@@ -222,4 +222,38 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 20,
     },
+    containerImages: {
+        flex: 1,
+        paddingHorizontal: 20,
+    },
+    image: {
+        width: 200,
+        height: 200,
+        borderRadius: 5,
+        marginTop: 20,
+    },
+    fileSelectionButton: {
+        backgroundColor: '#8bc34a',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    fileSelectionButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    fileDeleteButton: {
+        backgroundColor: '#ef9a9a',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    fileDeleteButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
 })

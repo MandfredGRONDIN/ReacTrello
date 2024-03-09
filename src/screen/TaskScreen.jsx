@@ -76,19 +76,19 @@ const TaskId = ({ route }) => {
                         ? statuses.find(status => status.id === task.statusIndex).title
                         : 'Non défini'}
                     </Text>
-                    {url && (
-                        <TouchableOpacity onPress={() => Linking.openURL(url)}>
-                            <Image source={{ uri: url }} style={{ width: 200, height: 200 }} />
-                        </TouchableOpacity>
-                    )}
                     {task.filePath && (
-                        <TouchableOpacity style={styles.button} onPress={handleDownloadFile}>
-                            <Text style={styles.buttonText}>Télécharger et partager le fichier</Text>
+                        <TouchableOpacity style={styles.fileDeleteButton} onPress={handleDownloadFile}>
+                            <Text style={styles.fileDeleteButtonText}>Télécharger et partager le fichier</Text>
                         </TouchableOpacity>
                     )}
                     <TouchableOpacity style={styles.button} onPress={handleNavigationToUpdateTask}>
                         <Text style={styles.buttonText}>Modifier la tâche</Text>
                     </TouchableOpacity>
+                    {url && (
+                        <TouchableOpacity onPress={() => Linking.openURL(url)}>
+                            <Image source={{ uri: url }} style={styles.image} />
+                        </TouchableOpacity>
+                    )}
                 </SafeAreaView>
             ) : (
                 <Text>Chargement des informations de la tâche...</Text>

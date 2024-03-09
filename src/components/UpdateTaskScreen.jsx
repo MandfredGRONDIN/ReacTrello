@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, Text, TextInput, TouchableOpacity, Linking, Image, Button, Alert } from 'react-native';
+import { SafeAreaView, Text, TextInput, TouchableOpacity, Linking, Image, Button, Alert, ScrollView } from 'react-native';
 import { getTaskById } from '../utils/task/read';
 import { UserContext } from '../context/userContext';
 import { updateTask } from '../utils/task/update';
@@ -122,10 +122,10 @@ const UpdateTaskScreen = ({ route }) => {
 
 
     return (
-        <SafeAreaView style={styles.taskContain}>
+        <SafeAreaView style={styles.containerImages}>
             {task ? (
-                <SafeAreaView>
-                    <>
+                <ScrollView>
+                    <SafeAreaView>
                         <TextInput
                             style={styles.input}
                             placeholder="Nouveau titre de la tâche"
@@ -148,20 +148,22 @@ const UpdateTaskScreen = ({ route }) => {
                                 <Picker.Item key={index} label={status.title} value={status.id} />
                             ))}
                         </Picker>
-                        <Button title="Sélectionner un fichier" onPress={handleFileSelection} />
-                    </>
+                        <TouchableOpacity style={styles.fileSelectionButton} onPress={handleFileSelection}>
+                            <Text style={styles.fileSelectionButtonText}>Sélectionner un fichier</Text>
+                        </TouchableOpacity>
+                    </SafeAreaView>
 
                     <TouchableOpacity style={styles.button} onPress={handleUpdateTask}>
                         <Text style={styles.buttonText}>Mettre à jour</Text>
                     </TouchableOpacity>
                     {!newFile ? (url && (
                         <TouchableOpacity onPress={() => Linking.openURL(url)}>
-                            <Image source={{ uri: url }} style={{ width: 200, height: 200 }} />
+                            <Image style={styles.image} source={{ uri: url }} />
                         </TouchableOpacity>
                     )) : (
-                        <Image source={{ uri: newFile.uri }} style={{ width: 200, height: 200 }} />
+                        <Image source={{ uri: newFile.uri }} style={styles.image} />
                     )}
-                </SafeAreaView>
+                </ScrollView>
             ) : (
                 <Text>Chargement des informations de la tâche...</Text>
             )}
