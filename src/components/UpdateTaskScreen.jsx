@@ -120,7 +120,6 @@ const UpdateTaskScreen = ({ route }) => {
         }
     };
 
-
     return (
         <SafeAreaView style={styles.containerImages}>
             {task ? (

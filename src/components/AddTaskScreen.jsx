@@ -124,6 +124,12 @@ const AddTaskScreen = ({ navigation }) => {
                 ))}
             </Picker>
             <TouchableOpacity
+                style={styles.fileSelectionButton}
+                onPress={handleFileSelection}
+            >
+                <Text style={styles.fileSelectionButtonText}>Sélectionner un fichier</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
                 style={[
                     styles.button,
                     !isStatusSelected && { backgroundColor: '#ccc' },
@@ -134,12 +140,6 @@ const AddTaskScreen = ({ navigation }) => {
                 <Text style={styles.buttonText}>Ajouter</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-                style={styles.button}
-                onPress={handleFileSelection}
-            >
-                <Text style={styles.buttonText}>Sélectionner un fichier</Text>
-            </TouchableOpacity>
         </View>
     )
 }
